@@ -1,0 +1,12 @@
+compil Test (){
+
+intCompil a;
+/* ceci est un comentaire */
+start
+a = a+b+d; //devrait marcher
+c+e=f ;//devrait etre faux
+
+
+
+c =
+}
