@@ -1,8 +1,9 @@
 lexer grammar TinyLexer;
 //TODO: manage comments
 //TODO: gerer le nom du pgm qui commence par une majuscule
+//TODO: ajouter les types: reel int
 tokens{SUB,ADD,MULT,DIV,LAE,RANGLE,EQEQ,EXCL_EQ,ASSIGNMENT,DOT,COMMA,LPAREN,RPAREN,LSQUARE,RSQUARE,LCURL,RCURL,
-COMPIL,START,INTCOMPIL,FLOATCOMPIL,STRINGCOMPIL,IF,THEN,ELSE,DO,WHILE,SCANCOMPIL,PRINTCOMPIL,WHITESPACE,PROGNAMES,IDENTIFIER,NL}
+COMPIL,START,INTCOMPIL,FLOATCOMPIL,STRINGCOMPIL,IF,THEN,ELSE,DO,WHILE,SCANCOMPIL,PRINTCOMPIL,WHITESPACE,PROGNAMES,IDENTIFIER,NL,INTEGER,FLOAT,TEXT}
 
 DelimitedComment
         : '/*' ( DelimitedComment | . )*? '*/'
@@ -63,6 +64,11 @@ WHITESPACE  : ' ' -> skip;
 
 PROGNAMES : [A-Z][_A-Za-z]+ ;//commence par une majuscule puis peut contenir maj min ou _;
 IDENTIFIER: [A-Za-z][0-9A-Za-z]*;//Commence par lettre suivi de lettre ou chiffres
+/*INTPOS : [+]?[0-9]+;
+INTNEG : [-]?[0-9]+;*/
+INTEGER : [0-9]+;
+TEXT: ~[\)]+;
+FLOAT : [+-]?[0-9]+DOT[1-9][0-9]*;
 
 //Section : literals
 

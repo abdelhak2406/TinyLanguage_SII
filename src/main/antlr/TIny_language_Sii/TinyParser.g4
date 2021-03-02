@@ -1,5 +1,5 @@
 parser grammar TinyParser;
-
+//TODO: ajouter test pour les comparaision
 options { tokenVocab = TinyLexer ;}
 
 //SECTION: genreal
@@ -14,22 +14,23 @@ listeDec:   IDENTIFIER | IDENTIFIER COMMA listeDec ;
 typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 
 
-descPgm: operation | aff | conditions | loop | scan | print ;
-aff : IDENTIFIER ASSIGNMENT operation | IDENTIFIER ASSIGNNMENT IDENTIFIER;
+descPgm: operation* | aff* | conditions* | loop* | scan* | print* ;
 
-operation: (addition | multip | division | comparison) SEMICOLON   ;
+aff : IDENTIFIER ASSIGNMENT (operation |  IDENTIFIER | INTEGER | FLOAT);
 
+operation: (addition | multip | division | comparison) SEMICOLON    ;
 
-addition:  IDENTIFIER ADD IDENTIFIER | ADD IDENTIFIER ;
+addition:  (IDENTIFIER | INTEGER | FLOAT ) ADD (IDENTIFIER |INTEGER | FLOAT )
+            | (IDENTIFIER | INTEGER | FLOAT ) ADD addition
+            ;
 
-multip: IDENTIFIER MULT IDENTIFER | MULT IDENTIFIER;
+multip: (IDENTIFIER | INTEGER | FLOAT ) MULT (IDENTIFIER | INTEGER | FLOAT ) | MULT IDENTIFIER multip;
 
 division: IDENTIFIER DIV operation;
 
 comparison : ;
 
-
 conditions:     ;
 loop:   ;
-scan:   ;
-print:  ;
+scan:  SCANCOMPIL LPAREN IDENTIFIER RPAREN ;
+print: PRINTCOMPIL LPAREN  TEXT RPAREN ;

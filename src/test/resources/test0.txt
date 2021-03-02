@@ -4,8 +4,11 @@ intCompil a;
 /* ceci est un comentaire */
 start
 a = a+b+d; //devrait marcher
+a=c
 c+e=f ;//devrait etre faux
 
+i=85 +5;
+printCompil(qqchose);
 
 
 c =
