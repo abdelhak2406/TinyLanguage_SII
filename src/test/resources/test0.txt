@@ -1,5 +1,6 @@
 compil Test (){
 
+floatCompil Div;
 intCompil a;
 /* ceci est un comentaire */
 start
@@ -8,7 +9,7 @@ a=c
 c+e=f ;//devrait etre faux
 
 i=85 +5;
-printCompil(qqchose);
+printCompil(qqchose de?akdaei bien);
 
 
 c =
