@@ -1,0 +1,21 @@
+compil Test_de (){
+
+intCompil a;
+/* ceci est un
+ comentaire sur plusieurs lignes
+ */
+start
+
+a = b-a*d-b + a ;
+i = 95+9;
+
+do { term2 = term3 + 1 ; term1 = term1+1 ; term3 = term3 / term2 ;
+ if (term1 > 0) then { term2 = term2 + 1 ; term1 = term1+1 ; }
+ else { term2 = term2 + 2 ;
+ if(a < b )then {
+ something=a*c;}
+ term3 = term3 / term2 ; }
+}
+while(term1 != 10)
+
+

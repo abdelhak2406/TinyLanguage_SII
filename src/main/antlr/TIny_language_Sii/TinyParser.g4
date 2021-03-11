@@ -14,42 +14,47 @@ listeDec:   IDENTIFIER | IDENTIFIER COMMA listeDec ;
 typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 
 
-descPgm: (aff | comparison | arithOperation | conditions | loop | scan | print)*;
+descPgm: (aff | comparison | arithOperation  | conditions | loop | scan | print)*;
 
-operande : IDENTIFIER | INTEGER | FLOAT;
+operande : IDENTIFIER #id
+         | INTEGER #int
+         | FLOAT #flt
+         ;
 
-aff : IDENTIFIER ASSIGNMENT (arithOperation | operande SEMICOLON ) ;
+aff : IDENTIFIER ASSIGNMENT (arithOperation SEMICOLON| operande SEMICOLON ) ;
 
-arithOperation  : arithOperation(
-                multip
-                | division
-                | substraction
-                | addition
-                | operande
-                )+SEMICOLON
+//arithOperation 1 2 sont fait pour gérer la priorité.
+arithOperation  :  arithOperation ADD arithOperation1
+                | arithOperation SUB arithOperation1
+                | arithOperation1
                 ;
-
-
-multip:  MULT
-      ;/*(operande) MULT operande | MULT IDENTIFIER multip;*/
-
-division:   DIV
+arithOperation1  : arithOperation1 MULT arithOperation2
+        | arithOperation1 DIV arithOperation2
+        | arithOperation2
         ;
-                                 /*IDENTIFIER DIV arithOperation;*/
 
-addition:   ADD
+arithOperation2    : LPAREN arithOperation RPAREN
+        | operande
+        ;
+//---------------------------------------------------------
 
-            ;
+opComparison    : RANGLE
+                | LANGLE
+                | EQEQ
+                | EXCL_EQ
+                ;
+comparison : LPAREN (operande opComparison operande) RPAREN ;
 
-substraction: SUB
-              ;
-comparison : LPAREN (operande RANGLE operande) RPAREN ;
+conditions: IF comparison THEN LCURL descPgm RCURL els    ;//les if imbrique n'existe pas
+els : ELSE LCURL descPgm RCURL
+    |
+    ;
 
-conditions: IF comparison THEN LCURL descPgm RCURL else*    ;//les if imbrique n'existe pas
-else: RCURL descPgm LCURL ;
+//----------------------------------------------------------
 
+loop: DO LCURL descPgm RCURL WHILE  comparison  ;
+//----------------------------------------------------------
 
-loop: DO LCURL descPgm RCURL WHILE LPAREN comparison  ;
 
 scanInputs :  (IDENTIFIER COMMA)* IDENTIFIER;
 scan:  SCANCOMPIL LPAREN scanInputs  RPAREN SEMICOLON ;
@@ -60,3 +65,4 @@ text: IDENTIFIER* |TEXT ;
 print: PRINTCOMPIL  LPAREN text  RPAREN SEMICOLON;//je pense que sa doit etre traite en semantique
                         //on vas regarder si il un des identifica
                         // ce que je veut obtenir c'est le fait de reconnnaitre une
+

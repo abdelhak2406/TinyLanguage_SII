@@ -68,7 +68,7 @@ IDENTIFIER: [A-Za-z][0-9A-Za-z]*;//Commence par lettre suivi de lettre ou chiffr
 /*INTPOS : [+]?[0-9]+;
 INTNEG : [-]?[0-9]+;*/
 INTEGER : [-]?([1-9][0-9]*|'0');
-FLOAT : [+-]?([0-9]+|'0')DOT([1-9][0-9]*|'0');
+FLOAT : [-]?([0-9]+|'0')DOT([1-9][0-9]*|'0');
 TEXT: ~ ')';// li'dee c'etait d'utilier sa dans Print et scan, mais puisqu'a chaque fois sa ne reconaissait
                 // que les identifiers, j'ai decider d'inclure text dans le parser.et du coup j'ai enlevé sa
 //Section : literals
