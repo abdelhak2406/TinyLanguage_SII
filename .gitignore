@@ -22,3 +22,10 @@ gradle-app.setting
 **/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/gradle
+
+# Abdelhak files to ignore
+doc/tpantlr2-code/
+
+doc/projet_compil/
+doc/project_compil.zip
+

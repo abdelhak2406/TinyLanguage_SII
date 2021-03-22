@@ -16,26 +16,21 @@ typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 
 descPgm: (aff | comparison | arithOperation  | conditions | loop | scan | print)*;
 
-operande : IDENTIFIER #id
-         | INTEGER #int
-         | FLOAT #flt
+operande : IDENTIFIER
+         | INTEGER
+         | FLOAT
          ;
 
 aff : IDENTIFIER ASSIGNMENT (arithOperation SEMICOLON| operande SEMICOLON ) ;
 
 //arithOperation 1 2 sont fait pour gérer la priorité.
-arithOperation  :  arithOperation ADD arithOperation1
-                | arithOperation SUB arithOperation1
-                | arithOperation1
+arithOperation  : LPAREN arithOperation RPAREN
+                | arithOperation DIV (operande|arithOperation)
+                | arithOperation MULT (operande|arithOperation)
+                | arithOperation ADD (operande|arithOperation)
+                | arithOperation SUB (operande|arithOperation)
+                | operande
                 ;
-arithOperation1  : arithOperation1 MULT arithOperation2
-        | arithOperation1 DIV arithOperation2
-        | arithOperation2
-        ;
-
-arithOperation2    : LPAREN arithOperation RPAREN
-        | operande
-        ;
 //---------------------------------------------------------
 
 opComparison    : RANGLE
