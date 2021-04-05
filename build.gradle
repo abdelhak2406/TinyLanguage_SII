@@ -20,7 +20,7 @@ dependencies {
 }
 generateGrammarSource {
     maxHeapSize = "128m"
-    arguments += ['-package', 'antlrGenerated', -]
+    arguments += ['-package', 'antlrGenerated', ]
 }
 compileJava.dependsOn generateGrammarSource
 

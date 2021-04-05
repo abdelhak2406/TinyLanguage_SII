@@ -13,6 +13,8 @@ public class Quadruplets {
     Quadruplets(){
         this.QuadTable = new ArrayList<QuadElement>();
     }
+
+
 }
 
 class QuadElement {

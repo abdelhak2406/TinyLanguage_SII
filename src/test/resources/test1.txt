@@ -2,6 +2,6 @@ compil Test_un () { // Partie déclaration des variables
 
 start // Partie description du programme
 scanCompil (term1, term2) ;
-printCompil (Le résultat est) ;
+printCompil (Le rsultat est) ;
 printCompil (Div) ;
 }
