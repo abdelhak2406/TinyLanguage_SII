@@ -1,4 +1,4 @@
-package me.abdelhakHind.TinySii;/*
+/*
 Classe qui contient les types existant dans notre language
 */
 

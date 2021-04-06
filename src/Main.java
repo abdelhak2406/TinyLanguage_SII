@@ -1,5 +1,3 @@
-package me.abdelhakHind.TinySii;
-
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
@@ -10,8 +8,9 @@ import java.io.InputStream;
 public class Main {
     //S'inspirer de l'anneé passé et de ce que terrence a écris dans son livre
 
-    public static void main( String[] args ) throws FileNotFoundException {  String inputFile=null;
-       /* if(args.length>0){
+    public static void main( String[] args ) throws FileNotFoundException {
+        String inputFile=null;
+        if(args.length>0){
 
             inputFile=args[3];
         }
@@ -19,14 +18,14 @@ public class Main {
         if(inputFile!=null)
         {
             is=new FileInputStream(inputFile);
-        }*/
-        inputFile = "src/test/resources/test1.txt";
-        InputStream is = new FileInputStream(inputFile);
+        }
+        /*inputFile = "src/test/resources/test1.txt";
+        InputStream is = new FileInputStream(inputFile);*/
         CharStream input=new UnbufferedCharStream(is);
-        me.abdelhakHind.TinySii.TinyLexer lex =new me.abdelhakHind.TinySii.TinyLexer(input);
+        TinyLexer lex =new TinyLexer(input);
         lex.setTokenFactory(new CommonTokenFactory(true));
         TokenStream tokens = new UnbufferedTokenStream<CommonToken>(lex);
-        me.abdelhakHind.TinySii.TinyParser parser=new me.abdelhakHind.TinySii.TinyParser(tokens);
+        TinyParser parser=new TinyParser(tokens);
 
         //parser.removeErrorListeners();
         ParseTree tree = parser.start();

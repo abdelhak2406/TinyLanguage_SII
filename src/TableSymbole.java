@@ -1,4 +1,3 @@
-package me.abdelhakHind.TinySii;
 import java.util.ArrayList;
 import java.util.HashMap;
 /*

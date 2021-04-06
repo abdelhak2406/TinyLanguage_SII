@@ -30,3 +30,5 @@ doc/projet_compil/
 doc/project_compil.zip
 doc/tpantlr2-code.zip
 
+out/
+gen/
