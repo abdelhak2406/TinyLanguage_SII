@@ -1,3 +1,4 @@
+package me.abdelhakHind.TinySii;
 import java.util.ArrayList;
 import java.util.HashMap;
 /*
@@ -29,15 +30,15 @@ public class TableSymbole {
     }
 
 
-    public void addElement(String name,String type, String valeur, Boolean  declare){
+    public void addElement(String name,String type, String valeur, Boolean  declare) throws Exception {
 
         /*
             Ajouter un elements a la table des symbole!!
          */
         if (lookup(name)==null){
 
-            TsElement newRow = new TsElement( name, type, valeur, declare);
-                TS.add(newRow);
+            TsElement newRow = new TsElement(  type, valeur, declare);
+                TS.put(name,newRow);
         }else{
             System.out.println("Variable preceddament initialiser");//TODO: is it reaaaly the way and is this what i need to say?
         }
@@ -53,7 +54,7 @@ class TsElement {
     Types type;
     String valeur;
     Boolean declare;
-    public TsElement(String nom, String type, String valeur, Boolean declare) throws Exception {
+    public TsElement( String type, String valeur, Boolean declare) throws Exception {
         switch (type){
             case "Integer":
                 this.type = Types.INTEGER;
@@ -70,13 +71,6 @@ class TsElement {
         this.declare = declare;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     public Types getType() {
         return type;
@@ -105,7 +99,6 @@ class TsElement {
     @Override
     public String toString() {
         return "TableSymbole{" +
-                "nom='" + nom + '\'' +
                 ", type=" + type +
                 ", valeur='" + valeur + '\'' +
                 ", declare=" + declare +

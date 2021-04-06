@@ -1,3 +1,4 @@
+package me.abdelhakHind.TinySii;
 //TODO: Implementer tout ce qui reste!
 
 /*

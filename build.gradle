@@ -4,8 +4,6 @@ plugins {
     id 'idea'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -20,7 +18,7 @@ dependencies {
 }
 generateGrammarSource {
     maxHeapSize = "128m"
-    arguments += ['-package', 'antlrGenerated', ]
+    arguments += ['-package', 'me.abdelhakHind.TinySii'  ]
 }
 compileJava.dependsOn generateGrammarSource
 
@@ -30,6 +28,33 @@ sourceSets {
     }
 }
 compileJava.source sourceSets.generated.java, sourceSets.main.java
+clean {
+    delete "generated-src"
+}
+idea {
+    module {
+        sourceDirs += file("generated-src/antlr/main/")
+    }
+}
 test {
     useJUnitPlatform()
+    testLogging {
+        events "passed" , "skipped", "failed"
+    }
+}
+task run{
+
+    compileJava.source sourceSets.generated.java, sourceSets.main.java
+}
+task executerTout{
+
+}
+task fatJar (type: Jar){
+    manifest {
+        attributes('Main-class': 'me.abdelhakHind.TinySii.Main')
+    }
+    baseName = project.name + '-all'
+    from{ configurations.compile.collect{ it.isDirectory()? it :
+    zipTree(it)}}
+    with jar
 }

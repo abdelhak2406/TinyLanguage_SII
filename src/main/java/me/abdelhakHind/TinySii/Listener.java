@@ -1,7 +1,8 @@
-import gen.*;
+package me.abdelhakHind.TinySii;
+
 //TODO: fix the import problem!
 
-public class Listener extends TinyParserBaseListener {
+public class Listener extends me.abdelhakHind.TinySii.TinyParserBaseListener {
     /* implementation de la classe TinyParserBaseLisener contiendra:
     * les operations a effectuer lors du parcours de l'arbre abstrait
     * ajout a la table des symboles

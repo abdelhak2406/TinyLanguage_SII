@@ -1,3 +1,7 @@
+/*
+package me.abdelhakHind.TinySii;
+
+import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.tree.*;
 // TODO: penser a supprimer quand cette classe ne sera plus nécessaire
@@ -17,3 +21,4 @@ public class test {
 }
 
 
+*/
