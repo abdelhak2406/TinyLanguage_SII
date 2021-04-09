@@ -99,13 +99,73 @@ public class TinyParserBaseListener implements TinyParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArithOperation(TinyParser.ArithOperationContext ctx) { }
+	@Override public void enterArith_mult(TinyParser.Arith_multContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) { }
+	@Override public void exitArith_mult(TinyParser.Arith_multContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArith_div(TinyParser.Arith_divContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArith_div(TinyParser.Arith_divContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArith_add(TinyParser.Arith_addContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArith_add(TinyParser.Arith_addContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArith_sub(TinyParser.Arith_subContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArith_sub(TinyParser.Arith_subContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOper(TinyParser.OperContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOper(TinyParser.OperContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArithParent(TinyParser.ArithParentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArithParent(TinyParser.ArithParentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -135,25 +195,37 @@ public class TinyParserBaseListener implements TinyParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConditions(TinyParser.ConditionsContext ctx) { }
+	@Override public void enterIf_aff(TinyParser.If_affContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConditions(TinyParser.ConditionsContext ctx) { }
+	@Override public void exitIf_aff(TinyParser.If_affContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEls(TinyParser.ElsContext ctx) { }
+	@Override public void enterIfelse_aff(TinyParser.Ifelse_affContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEls(TinyParser.ElsContext ctx) { }
+	@Override public void exitIfelse_aff(TinyParser.Ifelse_affContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterElseNothing(TinyParser.ElseNothingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElseNothing(TinyParser.ElseNothingContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

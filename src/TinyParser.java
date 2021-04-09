@@ -632,36 +632,157 @@ public class TinyParser extends Parser {
 	}
 
 	public static class ArithOperationContext extends ParserRuleContext {
-		public TerminalNode LPAREN() { return getToken(TinyParser.LPAREN, 0); }
+		public ArithOperationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arithOperation; }
+	 
+		public ArithOperationContext() { }
+		public void copyFrom(ArithOperationContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Arith_multContext extends ArithOperationContext {
 		public List<ArithOperationContext> arithOperation() {
 			return getRuleContexts(ArithOperationContext.class);
 		}
 		public ArithOperationContext arithOperation(int i) {
 			return getRuleContext(ArithOperationContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(TinyParser.RPAREN, 0); }
+		public TerminalNode MULT() { return getToken(TinyParser.MULT, 0); }
 		public OperandeContext operande() {
 			return getRuleContext(OperandeContext.class,0);
 		}
-		public TerminalNode DIV() { return getToken(TinyParser.DIV, 0); }
-		public TerminalNode MULT() { return getToken(TinyParser.MULT, 0); }
-		public TerminalNode ADD() { return getToken(TinyParser.ADD, 0); }
-		public TerminalNode SUB() { return getToken(TinyParser.SUB, 0); }
-		public ArithOperationContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_arithOperation; }
+		public Arith_multContext(ArithOperationContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArithOperation(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArith_mult(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArithOperation(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArith_mult(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArithOperation(this);
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArith_mult(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Arith_divContext extends ArithOperationContext {
+		public List<ArithOperationContext> arithOperation() {
+			return getRuleContexts(ArithOperationContext.class);
+		}
+		public ArithOperationContext arithOperation(int i) {
+			return getRuleContext(ArithOperationContext.class,i);
+		}
+		public TerminalNode DIV() { return getToken(TinyParser.DIV, 0); }
+		public OperandeContext operande() {
+			return getRuleContext(OperandeContext.class,0);
+		}
+		public Arith_divContext(ArithOperationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArith_div(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArith_div(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArith_div(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Arith_addContext extends ArithOperationContext {
+		public List<ArithOperationContext> arithOperation() {
+			return getRuleContexts(ArithOperationContext.class);
+		}
+		public ArithOperationContext arithOperation(int i) {
+			return getRuleContext(ArithOperationContext.class,i);
+		}
+		public TerminalNode ADD() { return getToken(TinyParser.ADD, 0); }
+		public OperandeContext operande() {
+			return getRuleContext(OperandeContext.class,0);
+		}
+		public Arith_addContext(ArithOperationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArith_add(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArith_add(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArith_add(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Arith_subContext extends ArithOperationContext {
+		public List<ArithOperationContext> arithOperation() {
+			return getRuleContexts(ArithOperationContext.class);
+		}
+		public ArithOperationContext arithOperation(int i) {
+			return getRuleContext(ArithOperationContext.class,i);
+		}
+		public TerminalNode SUB() { return getToken(TinyParser.SUB, 0); }
+		public OperandeContext operande() {
+			return getRuleContext(OperandeContext.class,0);
+		}
+		public Arith_subContext(ArithOperationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArith_sub(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArith_sub(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArith_sub(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class OperContext extends ArithOperationContext {
+		public OperandeContext operande() {
+			return getRuleContext(OperandeContext.class,0);
+		}
+		public OperContext(ArithOperationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterOper(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitOper(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitOper(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ArithParentContext extends ArithOperationContext {
+		public TerminalNode LPAREN() { return getToken(TinyParser.LPAREN, 0); }
+		public ArithOperationContext arithOperation() {
+			return getRuleContext(ArithOperationContext.class,0);
+		}
+		public TerminalNode RPAREN() { return getToken(TinyParser.RPAREN, 0); }
+		public ArithParentContext(ArithOperationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterArithParent(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitArithParent(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitArithParent(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -686,6 +807,10 @@ public class TinyParser extends Parser {
 			switch (_input.LA(1)) {
 			case LPAREN:
 				{
+				_localctx = new ArithParentContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(86);
 				match(LPAREN);
 				setState(87);
@@ -698,6 +823,9 @@ public class TinyParser extends Parser {
 			case INTEGER:
 			case FLOAT:
 				{
+				_localctx = new OperContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(90);
 				operande();
 				}
@@ -719,7 +847,7 @@ public class TinyParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ArithOperationContext(_parentctx, _parentState);
+						_localctx = new Arith_divContext(new ArithOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_arithOperation);
 						setState(93);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
@@ -745,7 +873,7 @@ public class TinyParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new ArithOperationContext(_parentctx, _parentState);
+						_localctx = new Arith_multContext(new ArithOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_arithOperation);
 						setState(99);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
@@ -771,7 +899,7 @@ public class TinyParser extends Parser {
 						break;
 					case 3:
 						{
-						_localctx = new ArithOperationContext(_parentctx, _parentState);
+						_localctx = new Arith_addContext(new ArithOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_arithOperation);
 						setState(105);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
@@ -797,7 +925,7 @@ public class TinyParser extends Parser {
 						break;
 					case 4:
 						{
-						_localctx = new ArithOperationContext(_parentctx, _parentState);
+						_localctx = new Arith_subContext(new ArithOperationContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_arithOperation);
 						setState(111);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
@@ -958,6 +1086,17 @@ public class TinyParser extends Parser {
 	}
 
 	public static class ConditionsContext extends ParserRuleContext {
+		public ConditionsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_conditions; }
+	 
+		public ConditionsContext() { }
+		public void copyFrom(ConditionsContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class If_affContext extends ConditionsContext {
 		public TerminalNode IF() { return getToken(TinyParser.IF, 0); }
 		public ComparisonContext comparison() {
 			return getRuleContext(ComparisonContext.class,0);
@@ -971,21 +1110,18 @@ public class TinyParser extends Parser {
 		public ElsContext els() {
 			return getRuleContext(ElsContext.class,0);
 		}
-		public ConditionsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_conditions; }
+		public If_affContext(ConditionsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterConditions(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterIf_aff(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitConditions(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitIf_aff(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitConditions(this);
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitIf_aff(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -994,6 +1130,7 @@ public class TinyParser extends Parser {
 		ConditionsContext _localctx = new ConditionsContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_conditions);
 		try {
+			_localctx = new If_affContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(131);
@@ -1024,27 +1161,51 @@ public class TinyParser extends Parser {
 	}
 
 	public static class ElsContext extends ParserRuleContext {
+		public ElsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_els; }
+	 
+		public ElsContext() { }
+		public void copyFrom(ElsContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ElseNothingContext extends ElsContext {
+		public ElseNothingContext(ElsContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterElseNothing(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitElseNothing(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitElseNothing(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Ifelse_affContext extends ElsContext {
 		public TerminalNode ELSE() { return getToken(TinyParser.ELSE, 0); }
 		public TerminalNode LCURL() { return getToken(TinyParser.LCURL, 0); }
 		public DescPgmContext descPgm() {
 			return getRuleContext(DescPgmContext.class,0);
 		}
 		public TerminalNode RCURL() { return getToken(TinyParser.RCURL, 0); }
-		public ElsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_els; }
+		public Ifelse_affContext(ElsContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterEls(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).enterIfelse_aff(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitEls(this);
+			if ( listener instanceof TinyParserListener ) ((TinyParserListener)listener).exitIfelse_aff(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitEls(this);
+			if ( visitor instanceof TinyParserVisitor ) return ((TinyParserVisitor<? extends T>)visitor).visitIfelse_aff(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1057,6 +1218,7 @@ public class TinyParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ELSE:
+				_localctx = new Ifelse_affContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(139);
@@ -1078,6 +1240,7 @@ public class TinyParser extends Parser {
 			case IDENTIFIER:
 			case INTEGER:
 			case FLOAT:
+				_localctx = new ElseNothingContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				}
