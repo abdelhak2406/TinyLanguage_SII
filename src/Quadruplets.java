@@ -14,14 +14,10 @@ public class Quadruplets {
         this.QuadTable = new ArrayList<QuadElement>();
     }
 
-
 }
-
 class QuadElement {
     String Operation ;
     String Oper1;
     String Oper2;
     String Temp;
-
-
 }
