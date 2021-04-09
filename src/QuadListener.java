@@ -9,5 +9,4 @@ public class QuadListener extends TinyParserBaseListener {
 
 
 
-
 }

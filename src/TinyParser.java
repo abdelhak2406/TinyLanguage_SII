@@ -562,12 +562,12 @@ public class TinyParser extends Parser {
 	public static class AffContext extends ParserRuleContext {
 		public TerminalNode IDENTIFIER() { return getToken(TinyParser.IDENTIFIER, 0); }
 		public TerminalNode ASSIGNMENT() { return getToken(TinyParser.ASSIGNMENT, 0); }
-		public ArithOperationContext arithOperation() {
-			return getRuleContext(ArithOperationContext.class,0);
-		}
-		public TerminalNode SEMICOLON() { return getToken(TinyParser.SEMICOLON, 0); }
 		public OperandeContext operande() {
 			return getRuleContext(OperandeContext.class,0);
+		}
+		public TerminalNode SEMICOLON() { return getToken(TinyParser.SEMICOLON, 0); }
+		public ArithOperationContext arithOperation() {
+			return getRuleContext(ArithOperationContext.class,0);
 		}
 		public AffContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -604,7 +604,7 @@ public class TinyParser extends Parser {
 			case 1:
 				{
 				setState(77);
-				arithOperation(0);
+				operande();
 				setState(78);
 				match(SEMICOLON);
 				}
@@ -612,7 +612,7 @@ public class TinyParser extends Parser {
 			case 2:
 				{
 				setState(80);
-				operande();
+				arithOperation(0);
 				setState(81);
 				match(SEMICOLON);
 				}
@@ -1461,7 +1461,7 @@ public class TinyParser extends Parser {
 		"\2AG\5\20\t\2BG\5\26\f\2CG\5\32\16\2DG\5\36\20\2EG\5\"\22\2F?\3\2\2\2"+
 		"F@\3\2\2\2FA\3\2\2\2FB\3\2\2\2FC\3\2\2\2FD\3\2\2\2FE\3\2\2\2GJ\3\2\2\2"+
 		"HF\3\2\2\2HI\3\2\2\2I\13\3\2\2\2JH\3\2\2\2KL\t\3\2\2L\r\3\2\2\2MN\7\""+
-		"\2\2NU\7\13\2\2OP\5\20\t\2PQ\7*\2\2QV\3\2\2\2RS\5\f\7\2ST\7*\2\2TV\3\2"+
+		"\2\2NU\7\13\2\2OP\5\f\7\2PQ\7*\2\2QV\3\2\2\2RS\5\20\t\2ST\7*\2\2TV\3\2"+
 		"\2\2UO\3\2\2\2UR\3\2\2\2V\17\3\2\2\2WX\b\t\1\2XY\7\16\2\2YZ\5\20\t\2Z"+
 		"[\7\17\2\2[^\3\2\2\2\\^\5\f\7\2]W\3\2\2\2]\\\3\2\2\2^y\3\2\2\2_`\f\7\2"+
 		"\2`c\7\6\2\2ad\5\f\7\2bd\5\20\t\2ca\3\2\2\2cb\3\2\2\2dx\3\2\2\2ef\f\6"+

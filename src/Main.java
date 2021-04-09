@@ -1,6 +1,6 @@
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
-
+import org.antlr.v4.gui.Trees;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ public class Main {
         String inputFile=null;
         if(args.length>0){
 
-            inputFile=args[3];
+            inputFile=args[0];
         }
         InputStream is=System.in;
         if(inputFile!=null)
@@ -30,12 +30,17 @@ public class Main {
         //parser.removeErrorListeners();
         ParseTree tree = parser.start();
 
+        Trees.inspect(tree,parser);
         ParseTreeWalker walker = new ParseTreeWalker();
+        TsListener lis = new TsListener();
+        walker.walk(lis,tree);
+
+        /*
         walker.walk(new TsListener(),tree);
-        walker.walk(new QuadListener(),
-                tree);
+        walker.walk(new QuadListener(),tree);
+        */
     }
 
 
-    }
+}
 

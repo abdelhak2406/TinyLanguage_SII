@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 /*
     Ici la ligne et la structure de la table des symbole est définie.
  */
@@ -29,7 +30,7 @@ public class TableSymbole {
     }
 
 
-    public void addElement(String name,String type, String valeur, Boolean  declare) throws Exception {
+    public Boolean addElement(String name, int type, String valeur, Boolean declare)  {
 
         /*
             Ajouter un elements a la table des symbole!!
@@ -38,10 +39,19 @@ public class TableSymbole {
 
             TsElement newRow = new TsElement(  type, valeur, declare);
                 TS.put(name,newRow);
+                return false;//tout vas bien
         }else{
-            System.out.println("Variable preceddament initialiser");//TODO: is it reaaaly the way and is this what i need to say?
+            return true;
         }
 
+    }
+    public void  printTs(){
+        System.out.println("\n Nom \t Type \t Valeur \t declaree");
+        System.out.println("------------------------------------------");
+        for (Map.Entry<String, TsElement> entry: this.TS.entrySet()) {
+            System.out.println("\n "+entry.getKey()+ "\t " + entry.getValue().type + "\t " + entry.getValue().valeur + "\t " + entry.getValue().declare);
+            System.out.println("------------------------------------------");
+        }
     }
 
 }
@@ -49,22 +59,22 @@ public class TableSymbole {
 class TsElement {
     /*
         Classe contenant les methode sur une ligne de la Table des symboles.
-     */
+    */
     Types type;
     String valeur;
     Boolean declare;
-    public TsElement( String type, String valeur, Boolean declare) throws Exception {
+    public TsElement( int type, String valeur, Boolean declare)  {
         switch (type){
-            case "Integer":
+            case 1:
                 this.type = Types.INTEGER;
                 break;
-            case "Float":
+            case 2:
                 this.type = Types.FLOAT;
                 break;
-            case "Sting":
+            case 3:
                 this.type = Types.STRING;
             default:
-                throw new Exception("Type non reconnu");
+                System.out.println("nous sommes dans default de TsElement");;
         }
         this.valeur = valeur;
         this.declare = declare;
@@ -97,11 +107,10 @@ class TsElement {
 
     @Override
     public String toString() {
-        return "TableSymbole{" +
-                ", type=" + type +
-                ", valeur='" + valeur + '\'' +
-                ", declare=" + declare +
-                '}';
+        return  "type=" + type +
+                ", valeur= " + valeur + '\'' +
+                ", declare=" + declare
+                ;
     }
 }
 

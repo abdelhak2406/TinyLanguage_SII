@@ -1,16 +1,20 @@
 compil Test (){
 
-floatCompil Div;
-intCompil a;
+floatCompil Divhra, awtul;
+intCompil a, Div;
 /* ceci est un comentaire */
 start
+
 a = a+b+d; //devrait marcher
-a=c
+a=c;
+a =  r*(e+c);
+a = k+2.3;
+c = kk;//TODO: supprimer ce truc
 c+e=f ;//devrait etre faux
 
 i=85 +5;
 printCompil(qqchose de?akdaei bien);
 
 
-c =
+c =;
 }
