@@ -20,7 +20,7 @@ operande : IDENTIFIER
          | FLOAT #float
          ;
 
-aff : IDENTIFIER ASSIGNMENT (arithOperation SEMICOLON| operande SEMICOLON ) ;
+aff : IDENTIFIER ASSIGNMENT (operande SEMICOLON | arithOperation SEMICOLON);
 
 //arithOperation 1 2 sont fait pour gérer la priorité.
 arithOperation  : LPAREN arithOperation RPAREN
