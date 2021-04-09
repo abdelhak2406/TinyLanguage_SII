@@ -8,7 +8,6 @@ start:   PROGNAMES LPAREN RPAREN LCURL varDec START descPgm  RCURL EOF;//EOF c'e
 
 varDec: (typeDec listeDec SEMICOLON)*  ;//partie declaration des variables l* c'est pour dire quil peut declarer
                                         // plusieurs Types de variable.
-
 listeDec:   IDENTIFIER | IDENTIFIER COMMA listeDec ;
 
 typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
@@ -17,18 +16,18 @@ typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 descPgm: (aff | comparison | arithOperation  | conditions | loop | scan | print)*;
 
 operande : IDENTIFIER
-         | INTEGER
-         | FLOAT
+         | INTEGER #integer
+         | FLOAT #float
          ;
 
 aff : IDENTIFIER ASSIGNMENT (arithOperation SEMICOLON| operande SEMICOLON ) ;
 
 //arithOperation 1 2 sont fait pour gérer la priorité.
 arithOperation  : LPAREN arithOperation RPAREN
-                | arithOperation DIV (operande|arithOperation)
-                | arithOperation MULT (operande|arithOperation)
-                | arithOperation ADD (operande|arithOperation)
-                | arithOperation SUB (operande|arithOperation)
+                | arithOperation DIV (operande|arithOperation) #arith_div
+                | arithOperation MULT (operande|arithOperation) #arith_mult
+                | arithOperation ADD (operande|arithOperation) #arith_add
+                | arithOperation SUB (operande|arithOperation) #arith_sub
                 | operande
                 ;
 //---------------------------------------------------------
@@ -38,16 +37,16 @@ opComparison    : RANGLE
                 | EQEQ
                 | EXCL_EQ
                 ;
-comparison : LPAREN (operande opComparison operande) RPAREN ;
+comparison : LPAREN (operande opComparison operande) RPAREN ; // try : LPAREN (arithOperation  opComparison arithOperation) RPAREN
 
-conditions: IF comparison THEN LCURL descPgm RCURL els    ;//les if imbrique n'existe pas
-els : ELSE LCURL descPgm RCURL
+conditions: IF comparison THEN LCURL descPgm RCURL els #if_aff   ;//les if imbrique n'existe pas
+els : ELSE LCURL descPgm RCURL #ifelse_aff
     |
     ;
 
 //----------------------------------------------------------
 
-loop: DO LCURL descPgm RCURL WHILE  comparison  ;
+loop: DO LCURL descPgm RCURL WHILE comparison  ;
 //----------------------------------------------------------
 
 

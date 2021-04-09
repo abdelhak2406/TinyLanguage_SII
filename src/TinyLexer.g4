@@ -25,6 +25,7 @@ ASSIGNMENT: '=';
 NL: ('\n' | '\r' '\n'?) -> skip;
 
 //TODO: see if you wanna keep them or not
+//PONCTUATIONS
 DOT: '.';
 COMMA: ',';
 LPAREN: '(' ;//possiblemenet ajouter -> pushMode(Inside);
@@ -70,7 +71,7 @@ INTNEG : [-]?[0-9]+;*/
 INTEGER : [-]?([1-9][0-9]*|'0');
 FLOAT : [-]?([0-9]+|'0')DOT([1-9][0-9]*|'0');
 TEXT: ~ ')';// li'dee c'etait d'utilier sa dans Print et scan, mais puisqu'a chaque fois sa ne reconaissait
-                // que les identifiers, j'ai decider d'inclure text dans le parser.et du coup j'ai enlevé sa
+                // que les identifiers, j'ai decider d'inclure text dans le parser.et du coup j'ai enlevé ça
 //Section : literals
 
 
