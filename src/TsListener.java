@@ -3,9 +3,12 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.tool.Rule;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 /*
     la classe qui contient toutes les methodes a appliquer sur
@@ -20,6 +23,7 @@ public class TsListener extends  TinyParserBaseListener{
     String ANSI_GREEN = "\u001B[32m";
     public TableSymbole ts = new TableSymbole();
     public LinkedList<String> tabErrors;
+    Stack pileExpression = new  Stack<Types>();
 
 
     @Override public void enterStart(TinyParser.StartContext ctx) {
@@ -171,16 +175,12 @@ public class TsListener extends  TinyParserBaseListener{
      *
      * <p>The default implementation does nothing.</p>
      */
-    @Override public void enterAff(TinyParser.AffContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitAff(TinyParser.AffContext ctx) {
-        List<ParseTree> var = ctx.children;
-        String idf = ctx.IDENTIFIER().getText();
+    @Override public void enterAff(TinyParser.AffContext ctx) {
+        this.pileExpression.clear();
 
+    }
+    @Override public void exitAff(TinyParser.AffContext ctx) {
+        String idf = ctx.IDENTIFIER().getText();
         //TODO :verifier qu'il est declarer:
         if (ts.lookup(idf) == null){
              String errorMessage = "Variable "+ANSI_CYAN+idf+ANSI_RESET+" Non Declare ligne:  "+ANSI_GREEN+ctx.start.getLine()+ANSI_RESET;
@@ -190,34 +190,31 @@ public class TsListener extends  TinyParserBaseListener{
             //TODO: affecter la valeur de l'expression et la mettre dans la TS
         }
 
+        LinkedList<String> liste_op = new LinkedList<String>();
+
 
         //TODO: il faut comparer l'identifier avec le type de l'expression
         //Le type de l'expression est entier si tous ses opérandes sont entiers, réel sinon
 
-        int len = var.toArray().length;
-        System.out.println("la var var dans affectation");
-        for (int i = 0; i < len; i++) {
-            String tmp = var.get(i).getText();
-            System.out.println(var.get(i).getText());
-        }
         String a = ctx.getText();//la c'est toute l'expression
         TinyParser.ArithOperationContext operandes = ctx.arithOperation();
+
         //TODO: check si operandes est non nulle
         if (operandes != null) {
-
-            System.out.println("operandes\n-----------------");
-
-            String tmp = operandes.getText();
-            String liste_operateur[] = tmp.split("\\+|\\- |\\* | \\/");
-            Types type;
-            for (String oper :
-                    liste_operateur) {
-                TsElement dansTS = ts.lookup(oper);
-                if(dansTS!=null){
-                    type = dansTS.getType();
-                }
-                System.out.println("oper = " + oper);
-            }
+                System.out.println("operandes\n-----------------");
+                String op = operandes.operande().getText();
+                System.out.println("op = "+op);
+                String tmp = operandes.getText();
+                String liste_operateur[] = tmp.split("\\+|\\-|\\*|\\/|\\*\\(|\\)");
+                /*Types type;
+                for (String oper :
+                        liste_operateur) {
+                    TsElement dansTS = ts.lookup(oper);
+                    if (dansTS != null) {
+                        type = dansTS.getType();
+                    }
+                    System.out.println("oper = " + oper);
+                }*/
         }
         /* System.out.println("Fin operandes\n--------------------");
         String [] expression = a.split("=");
@@ -229,21 +226,44 @@ public class TsListener extends  TinyParserBaseListener{
             System.out.println("i = "+i+"\n"+expression[i]);
         }
         System.out.println("le getText: "+a);*/
+
     }
 
 
-    @Override public void enterArithOperation(TinyParser.ArithOperationContext ctx) { }
+    @Override public void enterArithOperation(TinyParser.ArithOperationContext ctx) {
+
+    }
     /**
      * {@inheritDoc}
      *
      * <p>The default implementation does nothing.</p>
      */
-    @Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
+    @Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) {
+        String oper = ctx.operande().getText();
+        if (oper != null) {
+            TsElement elem = ts.lookup(oper);
+            if (elem == null) {
+                String errorMessage = "Variable " + ANSI_CYAN + oper + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
+            } else {
+                //ajouter a la pile pour connaitre le type
+                Types type, exType;
+                type = elem.getType();
+                if (pileExpression.isEmpty()) {
+                    pileExpression.push(type);
+                } else {
+                    exType = (Types) pileExpression.pop();
+                    if (exType == type) {
+                        pileExpression.push(type);
+                    }
+                    //si le type actuel est entier et l'autre float
+
+
+                }
+            }
+
+        }
+    }
     @Override public void enterOpComparison(TinyParser.OpComparisonContext ctx) { }
     /**
      * {@inheritDoc}
