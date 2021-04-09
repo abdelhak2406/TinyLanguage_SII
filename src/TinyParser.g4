@@ -22,10 +22,13 @@ operande : IDENTIFIER
          ;
 
 aff : IDENTIFIER ASSIGNMENT (operande SEMICOLON | arithOperation SEMICOLON);
-operateurs : DIV|MULT|ADD|SUB;
+
 //arithOperation 1 2 sont fait pour gérer la priorité.
 arithOperation  : LPAREN arithOperation RPAREN
-                | arithOperation operateurs (operande|arithOperation)
+                | arithOperation DIV (operande|arithOperation)
+                | arithOperation MULT (operande|arithOperation)
+                | arithOperation ADD (operande|arithOperation)
+                | arithOperation SUB (operande|arithOperation)
                 | operande
                 ;
 //---------------------------------------------------------
