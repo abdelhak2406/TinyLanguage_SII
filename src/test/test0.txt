@@ -5,7 +5,7 @@ intCompil a, Div;
 /* ceci est un comentaire */
 start
 
-a = a+b+d; //devrait marcher
+a = a+b+d*Div; //devrait marcher
 a=c;
 a = awtul+a;
 a =  r*(e+c);

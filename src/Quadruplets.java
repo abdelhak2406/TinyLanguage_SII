@@ -30,6 +30,11 @@ public class Quadruplets {
     public ArrayList<QuadElement> getArray(){
         return QuadTable;
     }
+    public void printQuad(){
+        for (int index = 0; index < this.QuadTable.size(); index++) {
+            System.out.println(index+"- "+QuadTable.get(index));
+        }
+    }
 
 }
 

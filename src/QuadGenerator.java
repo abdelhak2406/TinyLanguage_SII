@@ -16,9 +16,8 @@ import java.util.Stack;
 
 public class QuadGenerator extends TinyParserBaseListener {
 
-/*
-    HashMap<ParserRuleContext,String> listeTemporaire = new HashMap<ParserRuleContext,String>();
-    int nbtemp = 0 ;
+    public HashMap<ParserRuleContext,String> listeTemporaire = new HashMap<ParserRuleContext,String>();
+    public  int nbtemp = 0 ;
 
 
     Quadruplets quads = new Quadruplets();
@@ -34,9 +33,22 @@ public class QuadGenerator extends TinyParserBaseListener {
     Stack cond = new Stack();
     Stack nou = new Stack();
     Stack fin = new Stack();
+
     public QuadGenerator(TableSymbole ts){
        this.ts = ts;
     }
+
+
+    @Override public void enterStart(TinyParser.StartContext ctx) {
+
+    }
+
+    @Override public void exitStart(TinyParser.StartContext ctx) {
+        System.out.println("LES QUADRUPLETSs");
+        this.quads.printQuad();
+    }
+
+
     public void exprToQuad(ParserRuleContext ctx, String exp) {
         Stack<String> stack = new Stack<>();
         String temp = "";
@@ -122,8 +134,22 @@ public class QuadGenerator extends TinyParserBaseListener {
     }
     //*******************************************AFFECTATION******************************
     @Override public void enterAff(TinyParser.AffContext ctx){
+
+        //TODO : faire q chose?
         type = null;
-        nbtemp = 0;
+
+    }
+
+    @Override public void exitAff(TinyParser.AffContext ctx){
+        if (ctx.IDENTIFIER() != null) {
+
+            if (ctx.operande() != null) {
+                this.quads.addQuad(new QuadElement(":=", ctx.operande().getText(), "", ctx.IDENTIFIER().getText()));
+            }
+            if (ctx.arithOperation() != null) {
+                this.quads.addQuad(new QuadElement(":=", this.listeTemporaire.get(ctx.arithOperation()), "", ctx.IDENTIFIER().getText()));
+            }
+        }
     }
 
     @Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) {
@@ -131,13 +157,34 @@ public class QuadGenerator extends TinyParserBaseListener {
             //recupere toute l'expresiion!!
            String expr = ctx.getText();
            expr = this.transformToPostFixe(expr);
-
+           exprToQuad(ctx, expr);
 
 
         }
 
     }
 
+    @Override public void exitConditions(TinyParser.ConditionsContext ctx) {
+        String temp1 = this.ruleTemp.get(ctx.getChild(0));
+        String temp2 = this.ruleTemp.get(ctx.getChild(2));
+        String opt = "";
+        if (temp1.equals("0") || temp2.equals("0")){
+            if (ctx.getParent() instanceof TinyLangParser.ConditionContext)
+                opt = this.getEquivalentIf(ctx.opl().getText(), true);
+            else opt = this.getEquivalentLoop(ctx.opl().getText(), true);
+
+        }else{
+            if(ctx.getParent() instanceof TinyLangParser.ConditionContext)
+                opt = this.getEquivalentIf(ctx.opl().getText(), false);
+            else opt = this.getEquivalentLoop(ctx.opl().getText(), false);
+        }
+
+        this.conditionsQuads.push(this.quads.addQuad(opt,"", temp1, temp2));
+
+
+    }
+
+/*
    @Override public void exitId(TinyParser.IdContext ctx){
         if (ts.getElement(ctx.getText()) == null){
             this.erreur = true;
@@ -164,9 +211,10 @@ public class QuadGenerator extends TinyParserBaseListener {
             }
         }
 }
+*/
 
 
-    @Override public void exitInteger(TinyParser.IntegerContext ctx){
+  /*  @Override public void exitInteger(TinyParser.IntegerContext ctx){
         if(type==null){
             type = "int";
             val.push(ctx.getText());
@@ -181,7 +229,8 @@ public class QuadGenerator extends TinyParserBaseListener {
                 erreur = true;
             }
         }
-    }
+    }*/
+/*
 
     @Override public void exitFloat(TinyParser.FloatContext ctx){
         if(type==null){
@@ -250,12 +299,12 @@ public class QuadGenerator extends TinyParserBaseListener {
     @Override public void exitArith_mult(TinyParser.Arith_multContext ctx) { }
     @Override public void exitArith_add(TinyParser.Arith_addContext ctx) { }
     @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) { }
-    @Override public void exitAff(TinyParser.AffContext ctx) { }
+*/
 
 //******************************************COMPARAISON******************************IS IT NECESSARY
 
 
-    @Override public void enterComparison(TinyParser.ComparisonContext ctx) {
+  /*  @Override public void enterComparison(TinyParser.ComparisonContext ctx) {
         nbtemp=0;
         type=null;
     }
@@ -288,10 +337,10 @@ public class QuadGenerator extends TinyParserBaseListener {
             return;
         }
 
-    }
+    }*/
 //*******************************************CONDITIONS(IF ELSE) RE-DISCUSS******************************
 
-    @Override public void exitIf_aff(TinyParser.If_affContext ctx) {}
+   /* @Override public void exitIf_aff(TinyParser.If_affContext ctx) {}
     @Override public void enterDescPgm2(TinyParser.DescPgm2Context ctx) {
         int i,j;
         i = Integer.valueOf(cond.pop().toString());
@@ -337,6 +386,5 @@ public class QuadGenerator extends TinyParserBaseListener {
     @Override public void enterPrint(TinyParser.PrintContext ctx) { }
     @Override public void exitPrint(TinyParser.PrintContext ctx) { }
     //************************************END OF CODE*******************************
-    @Override public void exitStart(TinyParser.StartContext ctx) { }
-*/
+    @Override public void exitStart(TinyParser.StartContext ctx) { }*/
 }
