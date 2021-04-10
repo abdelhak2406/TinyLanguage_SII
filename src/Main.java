@@ -13,24 +13,32 @@ public class Main {
         TinyLexer lexer = new TinyLexer(CharStreams.fromFileName("./src/test/test0.txt"));
         TinyParser parser = new TinyParser(new CommonTokenStream(lexer));
 
-        TSGenerator tsGenerator = new TSGenerator();
-        QuadGenerator quadGenerator = new QuadGenerator(tsGenerator.ts);
+        TSGenerator tsGenerator = new TSGenerator();//il vas generer la ts
+        QuadGenerator quadGenerator = new QuadGenerator(tsGenerator.ts);//le contenu de la ts vas etre utiliser dans les quadruplets!
 
+        //il vas parcourir 2 fois
+        // TODO: voir si il n'y a pas d'erreur de synchronisation
         parser.addParseListener(tsGenerator);
         parser.addParseListener(quadGenerator);
 
         parser.start();
 
-         ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
-        OCgenerator.createCode();
+         //ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
+        //OCgenerator.createCode();
 
-        //tsGenerator.printTS();
+        tsGenerator.printTS();
+        tsGenerator.printErrors() ;
         //quadGenerator.printQuads();
-        OCgenerator.afficherCode();
+        //OCgenerator.afficherCode();
 
 
 }
+    public static void print_color(String s){
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_RESET = "\u001B[0m";
 
+        System.out.println(ANSI_RED + s.toUpperCase() + ANSI_RESET);
+    }
 
 }
 

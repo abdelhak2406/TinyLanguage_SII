@@ -7,7 +7,7 @@
 import java.util.ArrayList;
 
 public class ObjCodeGenerator {
-        ArrayList<QuadElement> quads;
+       ArrayList<QuadElement> quads;
         ArrayList<String> code= new ArrayList<String>();
         boolean erreur ;
         int etiq=0;
@@ -17,7 +17,7 @@ public class ObjCodeGenerator {
 
 
         public ObjCodeGenerator(QuadGenerator q){
-            //quads = q.getQuadruplets();
+            // quads = q.getQuadruplets();TODO:une fois fct implementer enlever comm
             this.erreur = q.erreur;
         }
 
@@ -26,7 +26,7 @@ public class ObjCodeGenerator {
 
         public void createCode(){
             for (QuadElement q: quads){
-                if (q.vals[0].equals(":=")) {
+                if (q.vals[0].equals("=")) {
                     MOV(q);
                 }
                 if (q.vals[0].equals("+")) {
@@ -107,7 +107,7 @@ public class ObjCodeGenerator {
             }
         }
 
-        /*_________________________INSTRUCTIONS_________________________*/
+        //*//*_________________________INSTRUCTIONS_________________________*//*
 
         public void MOV(QuadElement quad){
             GetInAcc(quad.vals[1], " ");
@@ -180,7 +180,7 @@ public class ObjCodeGenerator {
             etiq=Integer.valueOf(quad.vals[3]);
         }
 
-        /*_________________________AFFICHAGE______________________*/
+        //*//*_________________________AFFICHAGE______________________*//*
 
         public void afficherCode(){
             if (this.erreur){

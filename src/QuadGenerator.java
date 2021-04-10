@@ -6,7 +6,7 @@
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
+//TODO: implementer getQuadruplets
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -33,7 +33,7 @@ public class QuadGenerator extends TinyParserBaseListener {
     public ArrayList<QuadElement> getQueads(){
 
     }
-    /********************************************AFFECTATION*******************************/
+    //*******************************************AFFECTATION******************************
     @Override public void enterAff(TinyParser.AffContext ctx){
         type = null;
         nbtemp = 0;
@@ -219,16 +219,16 @@ public class QuadGenerator extends TinyParserBaseListener {
     /********************************************LOOP*******************************/
     @Override public void enterLoop(TinyParser.LoopContext ctx) { }
     @Override public void exitLoop(TinyParser.LoopContext ctx) { }
-    /********************************************SCAN*******************************/
+    //*******************************************SCAN******************************
      @Override public void enterScanInputs(TinyParser.ScanInputsContext ctx) { }
     @Override public void exitScanInputs(TinyParser.ScanInputsContext ctx) { }
     @Override public void enterScan(TinyParser.ScanContext ctx) { }
     @Override public void exitScan(TinyParser.ScanContext ctx) { }
-    /********************************************READ*******************************/
+    //*******************************************READ******************************
     @Override public void enterText(TinyParser.TextContext ctx) { }
     @Override public void exitText(TinyParser.TextContext ctx) { }
     @Override public void enterPrint(TinyParser.PrintContext ctx) { }
     @Override public void exitPrint(TinyParser.PrintContext ctx) { }
-    /*************************************END OF CODE********************************/
+    //************************************END OF CODE*******************************
     @Override public void exitStart(TinyParser.StartContext ctx) { }
 }
