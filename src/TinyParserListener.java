@@ -77,77 +77,15 @@ public interface TinyParserListener extends ParseTreeListener {
 	 */
 	void exitAff(TinyParser.AffContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code arith_mult}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
+	 * Enter a parse tree produced by {@link TinyParser#arithOperation}.
 	 * @param ctx the parse tree
 	 */
-	void enterArith_mult(TinyParser.Arith_multContext ctx);
+	void enterArithOperation(TinyParser.ArithOperationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code arith_mult}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
+	 * Exit a parse tree produced by {@link TinyParser#arithOperation}.
 	 * @param ctx the parse tree
 	 */
-	void exitArith_mult(TinyParser.Arith_multContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arith_div}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void enterArith_div(TinyParser.Arith_divContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arith_div}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void exitArith_div(TinyParser.Arith_divContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arith_add}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void enterArith_add(TinyParser.Arith_addContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arith_add}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void exitArith_add(TinyParser.Arith_addContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arith_sub}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void enterArith_sub(TinyParser.Arith_subContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arith_sub}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void exitArith_sub(TinyParser.Arith_subContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code oper}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void enterOper(TinyParser.OperContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code oper}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void exitOper(TinyParser.OperContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arithParent}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void enterArithParent(TinyParser.ArithParentContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arithParent}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 */
-	void exitArithParent(TinyParser.ArithParentContext ctx);
+	void exitArithOperation(TinyParser.ArithOperationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TinyParser#opComparison}.
 	 * @param ctx the parse tree
@@ -169,41 +107,35 @@ public interface TinyParserListener extends ParseTreeListener {
 	 */
 	void exitComparison(TinyParser.ComparisonContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code if_aff}
-	 * labeled alternative in {@link TinyParser#conditions}.
+	 * Enter a parse tree produced by {@link TinyParser#conditions}.
 	 * @param ctx the parse tree
 	 */
-	void enterIf_aff(TinyParser.If_affContext ctx);
+	void enterConditions(TinyParser.ConditionsContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code if_aff}
-	 * labeled alternative in {@link TinyParser#conditions}.
+	 * Exit a parse tree produced by {@link TinyParser#conditions}.
 	 * @param ctx the parse tree
 	 */
-	void exitIf_aff(TinyParser.If_affContext ctx);
+	void exitConditions(TinyParser.ConditionsContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ifelse_aff}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Enter a parse tree produced by {@link TinyParser#descPgm2}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfelse_aff(TinyParser.Ifelse_affContext ctx);
+	void enterDescPgm2(TinyParser.DescPgm2Context ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ifelse_aff}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Exit a parse tree produced by {@link TinyParser#descPgm2}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfelse_aff(TinyParser.Ifelse_affContext ctx);
+	void exitDescPgm2(TinyParser.DescPgm2Context ctx);
 	/**
-	 * Enter a parse tree produced by the {@code elseNothing}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Enter a parse tree produced by {@link TinyParser#descPgm3}.
 	 * @param ctx the parse tree
 	 */
-	void enterElseNothing(TinyParser.ElseNothingContext ctx);
+	void enterDescPgm3(TinyParser.DescPgm3Context ctx);
 	/**
-	 * Exit a parse tree produced by the {@code elseNothing}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Exit a parse tree produced by {@link TinyParser#descPgm3}.
 	 * @param ctx the parse tree
 	 */
-	void exitElseNothing(TinyParser.ElseNothingContext ctx);
+	void exitDescPgm3(TinyParser.DescPgm3Context ctx);
 	/**
 	 * Enter a parse tree produced by {@link TinyParser#loop}.
 	 * @param ctx the parse tree

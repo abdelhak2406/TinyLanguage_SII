@@ -52,47 +52,11 @@ public interface TinyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAff(TinyParser.AffContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arith_mult}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
+	 * Visit a parse tree produced by {@link TinyParser#arithOperation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArith_mult(TinyParser.Arith_multContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arith_div}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArith_div(TinyParser.Arith_divContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arith_add}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArith_add(TinyParser.Arith_addContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arith_sub}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArith_sub(TinyParser.Arith_subContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code oper}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOper(TinyParser.OperContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arithParent}
-	 * labeled alternative in {@link TinyParser#arithOperation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithParent(TinyParser.ArithParentContext ctx);
+	T visitArithOperation(TinyParser.ArithOperationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TinyParser#opComparison}.
 	 * @param ctx the parse tree
@@ -106,26 +70,23 @@ public interface TinyParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComparison(TinyParser.ComparisonContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code if_aff}
-	 * labeled alternative in {@link TinyParser#conditions}.
+	 * Visit a parse tree produced by {@link TinyParser#conditions}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIf_aff(TinyParser.If_affContext ctx);
+	T visitConditions(TinyParser.ConditionsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ifelse_aff}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Visit a parse tree produced by {@link TinyParser#descPgm2}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfelse_aff(TinyParser.Ifelse_affContext ctx);
+	T visitDescPgm2(TinyParser.DescPgm2Context ctx);
 	/**
-	 * Visit a parse tree produced by the {@code elseNothing}
-	 * labeled alternative in {@link TinyParser#els}.
+	 * Visit a parse tree produced by {@link TinyParser#descPgm3}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitElseNothing(TinyParser.ElseNothingContext ctx);
+	T visitDescPgm3(TinyParser.DescPgm3Context ctx);
 	/**
 	 * Visit a parse tree produced by {@link TinyParser#loop}.
 	 * @param ctx the parse tree

@@ -14,20 +14,20 @@ public class Main {
         TinyParser parser = new TinyParser(new CommonTokenStream(lexer));
 
         TSGenerator tsGenerator = new TSGenerator();//il vas generer la ts
-        QuadGenerator quadGenerator = new QuadGenerator(tsGenerator.ts);//le contenu de la ts vas etre utiliser dans les quadruplets!
+        // QuadGenerator quadGenerator = new QuadGenerator(tsGenerator.ts);//le contenu de la ts vas etre utiliser dans les quadruplets!
 
         //il vas parcourir 2 fois
         // TODO: voir si il n'y a pas d'erreur de synchronisation
         parser.addParseListener(tsGenerator);
-        parser.addParseListener(quadGenerator);
+        //parser.addParseListener(quadGenerator);
 
         parser.start();
 
-         //ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
+        //ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
         //OCgenerator.createCode();
 
         tsGenerator.printTS();
-        tsGenerator.printErrors() ;
+        //tsGenerator.printErrors() ;
         //quadGenerator.printQuads();
         //OCgenerator.afficherCode();
 

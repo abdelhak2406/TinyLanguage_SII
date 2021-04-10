@@ -1,30 +1,32 @@
+import java.util.ArrayList;
+
 public class QuadElement {
-        String vals[];
+
+        ArrayList<String> vals = new ArrayList<String>(4);
 
 
         public QuadElement(String Operation,String oper1,String oper2,String Temp)
         {
-                vals = new String[4];
-                vals[0] = Operation;
-                vals[1] = oper1;
-                vals[2] = oper2;
-                vals[3] = Temp;
+               this.vals.add(Operation);
+                this.vals.add(oper1);
+                this.vals.add(oper2);
+                this.vals.add(Temp) ;
         }
 
         public String get(int index)
         {
-                return vals[index];
+                return vals.get(index);
         }
 
         public void set(int index, String s)
         {
-                vals[index] = s;
+                vals.set(index,s) ;
         }
 
         @Override
         public String toString()
         {
-                return "("+vals[0]+","+vals[1]+","+vals[2]+","+vals[3]+")";
+                return "("+vals.get(0)+","+vals.get(1)+","+vals.get(2)+","+vals.get(3)+")";
         }
 
 }

@@ -18,13 +18,13 @@ public class ObjCodeGenerator {
 
         public ObjCodeGenerator(QuadGenerator q){
             // quads = q.getQuadruplets();TODO:une fois fct implementer enlever comm
-            this.erreur = q.erreur;
+            //this.erreur = q.erreur;
         }
 
         String acc=" ", x="",y="";
         String T=" ";
 
-        public void createCode(){
+        /*public void createCode(){
             for (QuadElement q: quads){
                 if (q.vals[0].equals("=")) {
                     MOV(q);
@@ -80,7 +80,7 @@ public class ObjCodeGenerator {
                 nb++;
             }
         }
-
+*/
 
         public void GetInAcc(String x, String y){
 
@@ -109,7 +109,7 @@ public class ObjCodeGenerator {
 
         //*//*_________________________INSTRUCTIONS_________________________*//*
 
-        public void MOV(QuadElement quad){
+/*        public void MOV(QuadElement quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"MOV "+quad.vals[3]+" AX");
             acc=quad.vals[3];
@@ -178,11 +178,11 @@ public class ObjCodeGenerator {
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JNE"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
-        }
+        */}
 
         //*//*_________________________AFFICHAGE______________________*//*
 
-        public void afficherCode(){
+       /* public void afficherCode(){
             if (this.erreur){
                 //Main.print_color("UNE OU PLUSIEURS ERREURS => PAS DE CODE ASSEMBLEUR.");
             }else {
@@ -191,6 +191,6 @@ public class ObjCodeGenerator {
                     System.out.println(code.get(i));
                 }
             }
-        }
+        }*/
 
-}
+//}

@@ -1,8 +1,6 @@
-import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
+
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.antlr.v4.tool.Rule;
 
 import javax.lang.model.util.Types;
 import java.lang.reflect.Type;
@@ -38,6 +36,7 @@ public class TSGenerator extends  TinyParserBaseListener{
             }
         }
     }
+
     @Override public void enterStart(TinyParser.StartContext ctx) {
         /*
             nous allons creer un tableau afin de referencer toutes les erruers;
@@ -48,7 +47,6 @@ public class TSGenerator extends  TinyParserBaseListener{
     }
 
     @Override public void exitStart(TinyParser.StartContext ctx) {
-        System.out.println("nous sommes a la fin");
 
         if (this.tabErrors.size()> 0){
             System.out.println(ANSI_RED+"\n\n\n***** \t ERRORS \t *****"+ANSI_RED+ANSI_RESET);
@@ -118,32 +116,22 @@ public class TSGenerator extends  TinyParserBaseListener{
 
     }
 
-
     @Override public void enterAff(TinyParser.AffContext ctx) {
         this.pileExpression.clear();
         this.opIsCorrect = true;//on suppose que l'operation est correcte
-
     }
+
     @Override public void exitAff(TinyParser.AffContext ctx) {
         TerminalNode idfctx = ctx.IDENTIFIER();
         //TODO :verifier qu'il est declarer:
         if (idfctx != null) {
 
             String idf = ctx.IDENTIFIER().getText();
-            System.out.println("idf dans exitAff: " + idf);
             if (ts.lookup(idf) == null) {
                 String errorMessage = "Variable " + ANSI_CYAN + " " + idf + "" + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
                 this.tabErrors.add(errorMessage);
-
             } else {
-                if (ctx.IDENTIFIER() != null) {
-                    String exp = ctx.IDENTIFIER().getText();
-
-                    if (ts.lookup(exp) == null) {
-                        String errorMessage = "Variable " + ANSI_CYAN + " " + idf + "" + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                        this.tabErrors.add(errorMessage);
-                    } else {
-                        if (opIsCorrect) {
+                    if (opIsCorrect) {
                             if ((ts.lookup(idf).getType() == Types_Tiny.INTEGER) && (!this.pileExpression.empty()) && (this.pileExpression.peek() == Types_Tiny.FLOAT)) {
                                 String errorMessage = "Incompatibilité des types: idf " + ANSI_CYAN + idf + ANSI_RESET + " de type " + ts.lookup(idf).getType() +
                                         " recoit une expression de type " + this.pileExpression.peek() + " ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
@@ -153,23 +141,20 @@ public class TSGenerator extends  TinyParserBaseListener{
                     }
                 }
             }
-        }
-    }
 
-
-
-
-    @Override public void exitArith_mult(TinyParser.Arith_multContext ctx) {
+    @Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) {
         TinyParser.OperandeContext oper = ctx.operande();
-
+        //ctx.operande().Id().getText();
         if (oper != null) {
             TsElement elem = ts.lookup(oper.getText());
-            System.out.println("enterArith_mult: "+oper.getText());
             if (elem == null) {
 
-                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
-                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                this.tabErrors.add(errorMessage);
+                if(  ((ctx.operande().INTEGER())== null ) && (ctx.operande().FLOAT() == null)  ) {
+
+                    System.out.println("dans eitArith");
+                    String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                    System.out.println(errorMessage);
+                    this.tabErrors.add(errorMessage);
                 this.opIsCorrect=false;
                 }
             } else {
@@ -195,154 +180,6 @@ public class TSGenerator extends  TinyParserBaseListener{
 
     }
 
-
-    @Override public void exitArith_div(TinyParser.Arith_divContext ctx) {
-        TinyParser.OperandeContext oper = ctx.operande();
-
-        if (oper != null) {
-            TsElement elem = ts.lookup(oper.getText());
-            System.out.println("enterArith_mult: "+oper.getText());
-            if (elem == null) {
-
-                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
-                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                this.tabErrors.add(errorMessage);
-                this.opIsCorrect=false;
-                 }
-            } else {
-                //ajouter a la pile pour connaitre le type
-                Types_Tiny type, exType;
-                type = elem.getType();
-                if (pileExpression.isEmpty()) {
-                    pileExpression.push(type);
-                } else {
-                    exType = (Types_Tiny) pileExpression.pop();
-                    if (exType == type) {
-                        pileExpression.push(type);
-                    }else if(exType == Types_Tiny.FLOAT){
-                        //l'actuelle peut etre un int on s'en fou
-                        pileExpression.push(exType) ;
-                    }else
-                    {
-                        pileExpression.push(type);
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Override public void exitArith_add(TinyParser.Arith_addContext ctx) {
-        TinyParser.OperandeContext oper = ctx.operande();
-
-        if (oper != null) {
-            TsElement elem = ts.lookup(oper.getText());
-            System.out.println("enterArith_mult: "+oper.getText());
-            if (elem == null) {
-                if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null))
-                {
-                String errorMessage = "Variable " + ANSI_CYAN +oper.getText()+ ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                this.tabErrors.add(errorMessage);
-                this.opIsCorrect=false;
-                }
-            } else {
-                //ajouter a la pile pour connaitre le type
-                Types_Tiny type, exType;
-                type = elem.getType();
-                if (pileExpression.isEmpty()) {
-                    pileExpression.push(type);
-                } else {
-                    exType = (Types_Tiny) pileExpression.pop();
-                    if (exType == type) {
-                        pileExpression.push(type);
-                    }else if(exType == Types_Tiny.FLOAT){
-                        //l'actuelle peut etre un int on s'en fou
-                        pileExpression.push(exType) ;
-                    }else
-                    {
-                        pileExpression.push(type);
-                    }
-                }
-            }
-        }
-
-    }
-
-
-    @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) {
-        TinyParser.OperandeContext oper = ctx.operande();
-
-        if (oper != null) {
-            TsElement elem = ts.lookup(oper.getText());
-            System.out.println("enterArith_mult: " + oper.getText());
-            if (elem == null) {
-                if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null))
-                {    
-                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                this.tabErrors.add(errorMessage);
-                this.opIsCorrect = false;
-                }
-            } else {
-                //ajouter a la pile pour connaitre le type
-                Types_Tiny type, exType;
-                type = elem.getType();
-                if (pileExpression.isEmpty()) {
-                    pileExpression.push(type);
-                } else {
-                    exType = (Types_Tiny) pileExpression.pop();
-                    if (exType == type) {
-                        pileExpression.push(type);
-                    } else if (exType == Types_Tiny.FLOAT) {
-                        //l'actuelle peut etre un int on s'en fou
-                        pileExpression.push(exType);
-                    } else {
-                        pileExpression.push(type);
-                    }
-                }
-            }
-        }
-
-        }
-    @Override public void enterOper(TinyParser.OperContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitOper(TinyParser.OperContext ctx) {
-        TinyParser.OperandeContext oper = ctx.operande();
-
-        if (oper != null) {
-            TsElement elem = ts.lookup(oper.getText());
-            System.out.println("enterArith_mult: " + oper.getText());
-            if (elem == null) {
-                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
-                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
-                this.tabErrors.add(errorMessage);
-                this.opIsCorrect = false;
-                 }
-            } else {
-                //ajouter a la pile pour connaitre le type
-                Types_Tiny type, exType;
-                type = elem.getType();
-                if (pileExpression.isEmpty()) {
-                    pileExpression.push(type);
-                } else {
-                    exType = (Types_Tiny) pileExpression.pop();
-                    if (exType == type) {
-                        pileExpression.push(type);
-                    } else if (exType == Types_Tiny.FLOAT) {
-                        //l'actuelle peut etre un int on s'en fou
-                        pileExpression.push(exType);
-                    } else {
-                        pileExpression.push(type);
-                    }
-                }
-            }
-        }
-
-
-    }
 
 
     public void printTS() {

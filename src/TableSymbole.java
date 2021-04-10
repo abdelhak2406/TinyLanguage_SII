@@ -27,7 +27,9 @@ public class TableSymbole {
         }
         return null;
     }
-
+    public int getSize(){
+        return this.TS.size();
+    }
 
     public Boolean addElement(String name, int type, String valeur, Boolean declare)  {
 

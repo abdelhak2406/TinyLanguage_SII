@@ -8,7 +8,10 @@
 import java.util.ArrayList;
 
 public class Quadruplets {
+
     ArrayList<QuadElement> QuadTable = new ArrayList<QuadElement>();;
+
+
 
     public void addQuad(QuadElement q){
         QuadTable.add(q);
