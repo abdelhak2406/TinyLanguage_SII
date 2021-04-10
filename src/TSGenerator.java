@@ -27,10 +27,7 @@ public class TSGenerator extends  TinyParserBaseListener{
     public Boolean opIsCorrect;
     Stack pileExpression = new  Stack<Types>();
 
-    public void printTs(){
-        ts.printTs();
-    }
-    public void printErrors() {
+    public void printErrors (){
 
         if (this.tabErrors.size() > 0)
         {
@@ -95,7 +92,7 @@ public class TSGenerator extends  TinyParserBaseListener{
                      for (int j = 0; j < idfs.length; j++) {
                          //la techniquement nous sommes dans les variables du type donc on vas remplir la
                          // TS
-                         errorOrNot = ts.addElement(idfs[j], type, "0", true);
+                         errorOrNot = ts.addElement(idfs[j], type, null, true);
                          if(errorOrNot){
                              toAdd = "Variable "+ANSI_CYAN+idfs[j]+ANSI_RESET+"  precedament initialiser";
                              this.tabErrors.add(toAdd);
@@ -348,9 +345,10 @@ public class TSGenerator extends  TinyParserBaseListener{
     }
 
 
+    public void printTS() {
 
-
-
+        ts.printTs();
     }
+}
 
 
