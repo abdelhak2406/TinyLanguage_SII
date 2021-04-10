@@ -16,7 +16,7 @@ public class ObjCodeGenerator {
         public static final String RESET = "\u001B[0m";
 
 
-        public OCgenerator(QuadGenerator q){
+        public ObjCodeGenerator(QuadGenerator q){
             quads = q.getQuads();
             this.erreur = q.erreur;
         }

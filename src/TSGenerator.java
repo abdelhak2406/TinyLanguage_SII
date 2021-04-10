@@ -16,7 +16,7 @@ import java.util.Stack;
     les non terminales afin de remplir la table des symbloe
     et On vas generer les erreurs semantique (ROUTINES !!! )
  */
-public class TsListener extends  TinyParserBaseListener{
+public class TSGenerator extends  TinyParserBaseListener{
     String ANSI_RED = "\u001B[31m";
     String ANSI_BLACK = "\u001B[30m";
     String ANSI_RESET = "\u001B[0m";
@@ -27,7 +27,9 @@ public class TsListener extends  TinyParserBaseListener{
     public Boolean opIsCorrect;
     Stack pileExpression = new  Stack<Types>();
 
-
+    public void printTs(){
+        ts.printTs();
+    }
     @Override public void enterStart(TinyParser.StartContext ctx) {
         /*
             nous allons creer un tableau afin de referencer toutes les erruers;

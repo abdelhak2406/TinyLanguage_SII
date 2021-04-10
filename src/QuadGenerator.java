@@ -7,10 +7,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 
-public class QuadListener extends TinyParserBaseListener {
+public class QuadGenerator extends TinyParserBaseListener {
     Quadruplets quads = new Quaduplets();
     boolean erreur = false;
     TableSymbole ts ;
@@ -26,7 +27,12 @@ public class QuadListener extends TinyParserBaseListener {
     Stack cond = new Stack();
     Stack nou = new Stack();
     Stack fin = new Stack();
+    public QuadGenerator(TableSymbole ts){
+       this.ts = ts;
+    }
+    public ArrayList<QuadElement> getQueads(){
 
+    }
     /********************************************AFFECTATION*******************************/
     @Override public void enterAff(TinyParser.AffContext ctx){
         type = null;
