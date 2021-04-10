@@ -23,13 +23,13 @@ public class Main {
 
         parser.start();
 
-        //ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
-        //OCgenerator.createCode();
+        ObjCodeGenerator OCgenerator = new ObjCodeGenerator(quadGenerator);
+        OCgenerator.createCode();
 
         //tsGenerator.printTS();
         //tsGenerator.printErrors() ;
         //quadGenerator.printQuads();
-        //OCgenerator.afficherCode();
+        OCgenerator.afficherCode();
 
 
 }

@@ -18,9 +18,9 @@ public class QuadGenerator extends TinyParserBaseListener {
 
     public HashMap<ParserRuleContext,String> listeTemporaire = new HashMap<ParserRuleContext,String>();
     public  int nbtemp = 0 ;
-
-
     Quadruplets quads = new Quadruplets();
+
+
     boolean erreur = false;
     TableSymbole ts ;
     int debutsi = -1;
@@ -125,7 +125,7 @@ public class QuadGenerator extends TinyParserBaseListener {
         if(stack.peek() == '(')
             return "Invalid Expression";
         result += stack.pop();
-    }
+        }
         return result;
     }
 
@@ -164,17 +164,18 @@ public class QuadGenerator extends TinyParserBaseListener {
 
     }
 
-    @Override public void exitConditions(TinyParser.ConditionsContext ctx) {
-        String temp1 = this.ruleTemp.get(ctx.getChild(0));
-        String temp2 = this.ruleTemp.get(ctx.getChild(2));
+    @Override public void exitConditions(TinyParser.ConditionsContext ctx) {}/*{
+
+        String temp1 = this.listeTemporaire.get(ctx.getChild(0));
+        String temp2 = this.listeTemporaire.get(ctx.getChild(2));
         String opt = "";
         if (temp1.equals("0") || temp2.equals("0")){
-            if (ctx.getParent() instanceof TinyLangParser.ConditionContext)
+            if (ctx.getParent() instanceof TinyParser.)
                 opt = this.getEquivalentIf(ctx.opl().getText(), true);
             else opt = this.getEquivalentLoop(ctx.opl().getText(), true);
 
         }else{
-            if(ctx.getParent() instanceof TinyLangParser.ConditionContext)
+            if(ctx.getParent() instanceof TinyParser.ConditionContext)
                 opt = this.getEquivalentIf(ctx.opl().getText(), false);
             else opt = this.getEquivalentLoop(ctx.opl().getText(), false);
         }
@@ -182,7 +183,7 @@ public class QuadGenerator extends TinyParserBaseListener {
         this.conditionsQuads.push(this.quads.addQuad(opt,"", temp1, temp2));
 
 
-    }
+    }*/}
 
 /*
    @Override public void exitId(TinyParser.IdContext ctx){
@@ -387,4 +388,4 @@ public class QuadGenerator extends TinyParserBaseListener {
     @Override public void exitPrint(TinyParser.PrintContext ctx) { }
     //************************************END OF CODE*******************************
     @Override public void exitStart(TinyParser.StartContext ctx) { }*/
-}
+
