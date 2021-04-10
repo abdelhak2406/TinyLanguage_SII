@@ -30,6 +30,17 @@ public class TSGenerator extends  TinyParserBaseListener{
     public void printTs(){
         ts.printTs();
     }
+    public void printErrors() {
+
+        if (this.tabErrors.size() > 0)
+        {
+            System.out.println(ANSI_RED + "\n\n\n***** \t ERRORS \t *****" + ANSI_RED + ANSI_RESET);
+            for (String err : this.tabErrors)
+            {
+                System.out.println("- " + err);
+            }
+        }
+    }
     @Override public void enterStart(TinyParser.StartContext ctx) {
         /*
             nous allons creer un tableau afin de referencer toutes les erruers;
@@ -54,11 +65,6 @@ public class TSGenerator extends  TinyParserBaseListener{
             ts.printTs();
         }
     }
-
-
-
-
-    @Override public void enterVarDec(TinyParser.VarDecContext ctx) { }
 
     @Override public void exitVarDec(TinyParser.VarDecContext ctx) {
         //TODO: eventuellement ajouter la ligne dans laquelle il y'a l'erreur
@@ -116,54 +122,6 @@ public class TSGenerator extends  TinyParserBaseListener{
     }
 
 
-    @Override public void enterListeDec(TinyParser.ListeDecContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitListeDec(TinyParser.ListeDecContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterTypeDec(TinyParser.TypeDecContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitTypeDec(TinyParser.TypeDecContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterDescPgm(TinyParser.DescPgmContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitDescPgm(TinyParser.DescPgmContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterOperande(TinyParser.OperandeContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitOperande(TinyParser.OperandeContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
     @Override public void enterAff(TinyParser.AffContext ctx) {
         this.pileExpression.clear();
         this.opIsCorrect = true;//on suppose que l'operation est correcte
@@ -240,12 +198,7 @@ public class TSGenerator extends  TinyParserBaseListener{
 
     }
 
-    @Override public void enterArith_div(TinyParser.Arith_divContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
+
     @Override public void exitArith_div(TinyParser.Arith_divContext ctx) {
         TinyParser.OperandeContext oper = ctx.operande();
 
@@ -281,17 +234,7 @@ public class TSGenerator extends  TinyParserBaseListener{
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterArith_add(TinyParser.Arith_addContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
+
     @Override public void exitArith_add(TinyParser.Arith_addContext ctx) {
         TinyParser.OperandeContext oper = ctx.operande();
 
@@ -363,11 +306,6 @@ public class TSGenerator extends  TinyParserBaseListener{
         }
 
         }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
     @Override public void enterOper(TinyParser.OperContext ctx) { }
     /**
      * {@inheritDoc}
@@ -408,13 +346,6 @@ public class TSGenerator extends  TinyParserBaseListener{
 
 
     }
-    @Override public void enterArithParent(TinyParser.ArithParentContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitArithParent(TinyParser.ArithParentContext ctx) {   }
 
 
 
