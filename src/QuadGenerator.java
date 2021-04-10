@@ -7,10 +7,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 
-public class QuadListener extends TinyParserBaseListener {
+public class QuadGenerator extends TinyParserBaseListener {
     Quadruplets quads = new Quaduplets();
     boolean erreur = false;
     TableSymbole ts ;
@@ -25,8 +26,13 @@ public class QuadListener extends TinyParserBaseListener {
     Stack val = new Stack();
     Stack cond = new Stack();
     Stack nou = new Stack();
-    Stack fin = new Stack(); //x=2;
+    Stack fin = new Stack();
+    public QuadGenerator(TableSymbole ts){
+       this.ts = ts;
+    }
+    public ArrayList<QuadElement> getQueads(){
 
+    }
     /********************************************AFFECTATION*******************************/
     @Override public void enterAff(TinyParser.AffContext ctx){
         type = null;
@@ -86,7 +92,7 @@ public class QuadListener extends TinyParserBaseListener {
                 val.push(ctx.getText());
                 nom.push(ctx.getText());
             }else{
-                Main.print_color("type incompatible à la ligne : " + ctx.getStart().getLine());
+                Main.print_color("Type incompatible à la ligne : " + ctx.getStart().getLine());
                 erreur = true;
             }
         }
@@ -138,148 +144,10 @@ public class QuadListener extends TinyParserBaseListener {
         }
 
     }
-    @Override public void exitArith_mult(TinyParser.Arith_multContext ctx) {
-        if(type.equals("string")){
-        Main.print_color("Operation non valide pour le type String a la ligne : " + ctx.getStart().getLine());
-        erreur = true;
-        return;
-        }
-        if(!erreur) {
-            if (type.equals("int")) {
-                int i, j;
-                nbtemp++;
-                i = Integer.valueOf(val.pop().toString());
-                j = Integer.valueOf(val.pop().toString());
-                val.push(j * i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("*",ch1,ch2,"T"+nbtemp);
-                quads.addQuad(q);
-                nom.push("T"+nbtemp);
-                return;
-            }
-            if (type.equals("float")) {
-                float i, j;
-                nbtemp++;
-                i = Float.valueOf(val.pop().toString());
-                j = Float.valueOf(val.pop().toString());
-                val.push(j * i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("*",ch1,ch2,"T"+nbtemp);
-                quads.addQuad(q);
-                nom.push("T"+nbtemp);
-                return;
-            }
-        }
-    }
-    @Override public void exitArith_add(TinyParser.Arith_addContext ctx) {
-        if(!erreur) {
-            if (type.equals("string")) {
-                String i, j;
-                nbtemp++;
-                i = val.pop().toString();
-                j = val.pop().toString();
-                val.push(j + i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("+",ch1,ch2,"T"+nbtemp);
-                quads.addQuad(q);
-                nom.push("T"+nbtemp);
-                return;
-            }
-            if (type.equals("int")) {
-                int i,j;
-                nbtemp++;
-                i = Integer.valueOf(val.pop().toString());
-                j = Integer.valueOf(val.pop().toString());
-                val.push(j + i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("+",ch1,ch2,"T"+nbtemp);
-                quads.addQuad(q);
-                nom.push("T"+nbtemp);
-                return;
-            }
-            if (type.equals("float")) {
-                float i, j;
-                nbtemp++;
-                i = Float.valueOf(val.pop().toString());
-                j = Float.valueOf(val.pop().toString());
-                val.push(j + i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("+",ch1,ch2,"T"+nbtemp);
-                quads.addQuad(q);
-                nom.push("T"+nbtemp);
-                return;
-            }
-        }
-    }
-    @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) {
-        if (type.equals("string")) {
-            Main.print_color("Operation non valide pour le type String a la ligne : " + ctx.getStart().getLine());
-            erreur = true;
-            return;
-        }
-        if (!erreur) {
-            if (type.equals("int")) {
-                int i, j;
-                nbtemp++;
-                i = Integer.valueOf(val.pop().toString());
-                j = Integer.valueOf(val.pop().toString());
-                val.push(j - i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("-", ch1, ch2, "T" + nbtemp);
-                quads.addQuad(q);
-                nom.push("T" + nbtemp);
-                return;
-            }
-            if (type.equals("float")) {
-                float i, j;
-                nbtemp++;
-                i = Float.valueOf(val.pop().toString());
-                j = Float.valueOf(val.pop().toString());
-                val.push(j - i);
-
-                String ch2 = nom.pop().toString();
-                String ch1 = nom.pop().toString();
-                Quad q = new Quad("-", ch1, ch2, "T" + nbtemp);
-                quads.addQuad(q);
-                nom.push("T" + nbtemp);
-                return;
-            }
-        }
-    }
-    @Override public void exitAff(TinyParser.AffContext ctx) {
-        if (ts.getElement(ctx.ID().getText()) == null){
-            this.erreur = true;
-            Main.print_color("identificateur non declaré à la ligne : " + ctx.getStart().getLine());
-            return;
-        }
-        if(ts.getElement(ctx.ID().getText()).type!=type){
-            Main.print_color("Incompatibilité de type à la ligne : " + ctx.getStart().getLine());
-            erreur = true;
-            return;
-        }
-        if(!erreur) {
-            String i;
-            i = val.pop().toString();
-            ts.getElement(ctx.ID().getText()).value = i;
-
-            String ch1 = nom.pop().toString();
-            Quad q = new Quad(":=",ch1,"",ctx.ID().getText());
-            quads.addQuad(q);
-            return;
-        }
-    }
+    @Override public void exitArith_mult(TinyParser.Arith_multContext ctx) { }
+    @Override public void exitArith_add(TinyParser.Arith_addContext ctx) { }
+    @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) { }
+    @Override public void exitAff(TinyParser.AffContext ctx) { }
 
     /********************************************COMPARAISON******************************IS IT NECESSARY*/
     @Override public void enterComparison(TinyParser.ComparisonContext ctx) { }

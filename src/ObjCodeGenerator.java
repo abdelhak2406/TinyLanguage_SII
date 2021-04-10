@@ -7,7 +7,7 @@
 import java.util.ArrayList;
 
 public class ObjCodeGenerator {
-        ArrayList<Quad> quads;
+        ArrayList<QuadElement> quads;
         ArrayList<String> code= new ArrayList<String>();
         boolean erreur ;
         int etiq=0;
@@ -16,8 +16,8 @@ public class ObjCodeGenerator {
         public static final String RESET = "\u001B[0m";
 
 
-        public OCgenerator(QuadGenerator q){
-            quads = q.getQuads();
+        public ObjCodeGenerator(QuadGenerator q){
+            //quads = q.getQuadruplets();
             this.erreur = q.erreur;
         }
 
@@ -25,7 +25,7 @@ public class ObjCodeGenerator {
         String T=" ";
 
         public void createCode(){
-            for (Quad q: quads){
+            for (QuadElement q: quads){
                 if (q.vals[0].equals(":=")) {
                     MOV(q);
                 }
@@ -109,71 +109,71 @@ public class ObjCodeGenerator {
 
         /*_________________________INSTRUCTIONS_________________________*/
 
-        public void MOV(Quad quad){
+        public void MOV(QuadElement quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"MOV "+quad.vals[3]+" AX");
             acc=quad.vals[3];
 
         }
-        public void ADD(Quad quad){
+        public void ADD(QuadElement  quad){
             GetInAcc(quad.vals[1], quad.vals[2]);
             this.code.add(" "+"ADD "+"AX "+this.y);
             acc=quad.vals[3];
         }
-        public void MUL(Quad quad){
+        public void MUL(QuadElement  quad){
             GetInAcc(quad.vals[1], quad.vals[2]);
             this.code.add(" "+"MUL "+"AX "+this.y);
 
             acc=quad.vals[3];
         }
-        public void SUB(Quad quad){
+        public void SUB(QuadElement  quad){
             GetInAcc(quad.vals[1]," ");
             this.code.add(" "+"SUB "+"AX "+quad.vals[2]);
             acc=quad.vals[3];
         }
-        public void DIV(Quad quad){
+        public void DIV(QuadElement quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"DIV "+"AX "+quad.vals[2]);
             acc=quad.vals[3];
         }
 
-        public void BR(Quad quad){
+        public void BR(QuadElement  quad){
             this.code.add(" "+"JMP"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
 
-        public void BLE(Quad quad){
+        public void BLE(QuadElement  quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JLE"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
-        public void BGE(Quad quad){
+        public void BGE(QuadElement  quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JGE"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
 
-        public void BG(Quad quad){
+        public void BG(QuadElement  quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JG"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
-        public void BL(Quad quad){
+        public void BL(QuadElement quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JL"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
-        public void BE(Quad quad){
+        public void BE(QuadElement  quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JE"+CYAN+" etiq"+quad.vals[3]+RESET);
             etiq=Integer.valueOf(quad.vals[3]);
         }
-        public void BNE(Quad quad){
+        public void BNE(QuadElement  quad){
             GetInAcc(quad.vals[1], " ");
             this.code.add(" "+"CMP "+"AX "+quad.vals[2]);
             this.code.add(" "+"JNE"+CYAN+" etiq"+quad.vals[3]+RESET);
@@ -184,7 +184,7 @@ public class ObjCodeGenerator {
 
         public void afficherCode(){
             if (this.erreur){
-                Main.print_color("UNE OU PLUSIEURS ERREURS => PAS DE CODE ASSEMBLEUR.");
+                //Main.print_color("UNE OU PLUSIEURS ERREURS => PAS DE CODE ASSEMBLEUR.");
             }else {
                 System.out.println("________________CODE ASSEMBLEUR__________________");
                 for (int i = 0; i < code.size(); i++) {
