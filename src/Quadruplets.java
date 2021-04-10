@@ -8,16 +8,25 @@
 import java.util.ArrayList;
 
 public class Quadruplets {
-     ArrayList<QuadElement> QuadTable ;
+    ArrayList<QuadElement> QuadTable = new ArrayList<QuadElement>();;
 
-    Quadruplets(){
-        this.QuadTable = new ArrayList<QuadElement>();
+    public void addQuad(QuadElement q){
+        QuadTable.add(q);
+    }
+    public QuadElement getQuad(int index){
+        return QuadTable.get(index);
+    }
+    public void setQuad(int index,String value, int position){
+        QuadElement q = QuadTable.get(index);
+        q.set(position,value);
+        QuadTable.set(index,q);
+    }
+    public int size(){
+        return QuadTable.size();
+    }
+    public ArrayList<QuadElement> getArray(){
+        return QuadTable;
     }
 
 }
-class QuadElement {
-    String Operation ;
-    String Oper1;
-    String Oper2;
-    String Temp;
-}
+

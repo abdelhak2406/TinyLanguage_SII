@@ -13,9 +13,9 @@ listeDec:   IDENTIFIER | IDENTIFIER COMMA listeDec ;
 typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 
 
-descPgm: (aff | comparison | arithOperation  | conditions | loop | scan | print)*;
+descPgm: (aff | comparison| conditions | loop | scan | print)*; //arithoperation enlevé
 
-operande : IDENTIFIER
+operande : IDENTIFIER #id
          | INTEGER #integer
          | FLOAT #float
          ;

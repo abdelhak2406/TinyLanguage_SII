@@ -42,5 +42,7 @@ public class Main {
     }
 
 
+    public static void print_color(String s) {
+    }
 }
 
