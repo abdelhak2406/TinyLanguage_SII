@@ -12,7 +12,7 @@ import java.util.Stack;
 
 
 public class QuadGenerator extends TinyParserBaseListener {
-    Quadruplets quads = new Quaduplets();
+    Quadruplets quads = new Quadruplets();
     boolean erreur = false;
     TableSymbole ts ;
 
@@ -149,13 +149,74 @@ public class QuadGenerator extends TinyParserBaseListener {
     @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) { }
     @Override public void exitAff(TinyParser.AffContext ctx) { }
 
-    //*******************************************COMPARAISON******************************IS IT NECESSARY
-    @Override public void enterComparison(TinyParser.ComparisonContext ctx) { }
-    @Override public void exitComparison(TinyParser.ComparisonContext ctx) { }
-    //*******************************************CONDITIONS(IF ELSE) RE-DISCUSS******************************
-    @Override public void exitIf_aff(TinyParser.If_affContext ctx) { }
-    @Override public void exitIfelse_aff(TinyParser.Ifelse_affContext ctx) { }
-    //*******************************************LOOP******************************
+    /********************************************COMPARAISON******************************IS IT NECESSARY*/
+    @Override public void enterComparison(TinyParser.ComparisonContext ctx) {
+        nbtemp=0;
+        type=null;
+    }
+    @Override public void exitComparison(TinyParser.ComparisonContext ctx) {
+        String ch2 = nom.pop().toString();
+        String ch1 = nom.pop().toString();
+
+        if (ctx.opComparison().getText().equals("<")){
+            QuadElement q = new QuadElement("BGE",ch1,ch2,"");
+            cond.push(quads.size());
+            quads.addQuad(q);
+            return;
+        }
+        if (ctx.opComparison().getText().equals(">")){
+            QuadElement q = new QuadElement("BLE",ch1,ch2,"");
+            cond.push(quads.size());
+            quads.addQuad(q);
+            return;
+        }
+        if (ctx.opComparison().getText().equals("=")){
+            QuadElement q = new QuadElement("BNZ",ch1,ch2,"");
+            cond.push(quads.size());
+            quads.addQuad(q);
+            return;
+        }
+        if (ctx.opComparison().getText().equals("!=")){
+            QuadElement q = new QuadElement("BZ",ch1,ch2,"");
+            cond.push(quads.size());
+            quads.addQuad(q);
+            return;
+        }
+
+    }
+    /********************************************CONDITIONS(IF ELSE) RE-DISCUSS*******************************/
+    @Override public void exitIf_aff(TinyParser.If_affContext ctx) {}
+    @Override public void enterDescPgm2(TinyParser.DescPgm2Context ctx) {
+        int i,j;
+        i = Integer.valueOf(cond.pop().toString());
+        while(!cond.empty()){
+            j = Integer.valueOf(cond.pop().toString());
+
+            if (quads.getQuad(j).get(0).equals("BZ")){
+                quads.setQuad(j,"BNZ",0);
+            }else {
+                if (quads.getQuad(j).get(0).equals("BNZ")){
+                    quads.setQuad(j,"BZ",0);
+                }else{
+                    if (quads.getQuad(j).get(0).equals("BGE")){
+                        quads.setQuad(j,"BL",0);
+                    }else{
+                        quads.setQuad(j,"BG",0);
+                    }
+                }
+            }
+            quads.setQuad(j,""+quads.size(),3);
+        }
+        cond.push(i);
+    }
+    @Override public void enterDescPgm3(TinyParser.DescPgm3Context ctx){
+        int i;
+        i = Integer.valueOf(cond.pop().toString());
+
+        quads.setQuad(i,""+quads.size(),3);
+    }
+    @Override public void enterIfelse_aff(TinyParser.Ifelse_affContext ctx)
+    /********************************************LOOP*******************************/
     @Override public void enterLoop(TinyParser.LoopContext ctx) { }
     @Override public void exitLoop(TinyParser.LoopContext ctx) { }
     //*******************************************SCAN******************************
