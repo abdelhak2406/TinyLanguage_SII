@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 /*
@@ -60,19 +59,19 @@ class TsElement {
     /*
         Classe contenant les methode sur une ligne de la Table des symboles.
     */
-    Types type;
+    Types_Tiny type;
     String valeur;
     Boolean declare;
     public TsElement( int type, String valeur, Boolean declare)  {
         switch (type){
             case 1:
-                this.type = Types.INTEGER;
+                this.type = Types_Tiny.INTEGER;
                 break;
             case 2:
-                this.type = Types.FLOAT;
+                this.type = Types_Tiny.FLOAT;
                 break;
             case 3:
-                this.type = Types.STRING;
+                this.type = Types_Tiny.STRING;
             default:
                 System.out.println("nous sommes dans default de TsElement");;
         }
@@ -81,11 +80,11 @@ class TsElement {
     }
 
 
-    public Types getType() {
+    public Types_Tiny getType() {
         return type;
     }
 
-    public void setType(Types type) {
+    public void setType(Types_Tiny type) {
         this.type = type;
     }
 

@@ -22,11 +22,17 @@ public class Main {
         /*inputFile = "src/test/resources/test1.txt";
         InputStream is = new FileInputStream(inputFile);*/
         CharStream input=new UnbufferedCharStream(is);
+
         TinyLexer lex =new TinyLexer(input);
+        lex.removeErrorListeners();
+        lex.addErrorListener(new ErrorListener());
+
         lex.setTokenFactory(new CommonTokenFactory(true));
+
         TokenStream tokens = new UnbufferedTokenStream<CommonToken>(lex);
         TinyParser parser=new TinyParser(tokens);
-
+        parser.removeErrorListeners();
+        parser.addErrorListener(new ErrorListener());
         //parser.removeErrorListeners();
         ParseTree tree = parser.start();
 

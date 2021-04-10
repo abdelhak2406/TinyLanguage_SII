@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.tool.Rule;
 
+import javax.lang.model.util.Types;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,6 +24,7 @@ public class TsListener extends  TinyParserBaseListener{
     String ANSI_GREEN = "\u001B[32m";
     public TableSymbole ts = new TableSymbole();
     public LinkedList<String> tabErrors;
+    public Boolean opIsCorrect;
     Stack pileExpression = new  Stack<Types>();
 
 
@@ -34,7 +36,7 @@ public class TsListener extends  TinyParserBaseListener{
         tabErrors = new LinkedList<String>();
 
     }
-        
+
     @Override public void exitStart(TinyParser.StartContext ctx) {
         System.out.println("nous sommes a la fin");
 
@@ -63,22 +65,7 @@ public class TsListener extends  TinyParserBaseListener{
         Boolean errorOrNot;
         String toAdd = new String();
 
-        /*
-        * ** CE SONT DES TRUC QUE JAI EXECUTER POUR TESTER ** *
-        List<TinyParser.TypeDecContext> typ = ctx.typeDec();
-        List<TinyParser.ListeDecContext> var = ctx.listeDec();
-        int len = typ.toArray().length;
-        for (int i = 0; i < len; i++) {
-            String tmp = typ.get(i).getText();
-            System.out.println(typ.get(i).getText());
 
-        }
-        len = var.toArray().length;
-        System.out.println("la var var");
-        for (int i = 0; i < len; i++) {
-            String tmp = var.get(i).getText();
-            System.out.println(var.get(i).getText());
-        }*/
         List<ParseTree> declarations = ctx.children;
         len = declarations.toArray().length;
         int i=0;
@@ -177,221 +164,260 @@ public class TsListener extends  TinyParserBaseListener{
      */
     @Override public void enterAff(TinyParser.AffContext ctx) {
         this.pileExpression.clear();
+        this.opIsCorrect = true;//on suppose que l'operation est correcte
 
     }
     @Override public void exitAff(TinyParser.AffContext ctx) {
-        String idf = ctx.IDENTIFIER().getText();
+        TerminalNode idfctx = ctx.IDENTIFIER();
         //TODO :verifier qu'il est declarer:
-        if (ts.lookup(idf) == null){
-             String errorMessage = "Variable "+ANSI_CYAN+idf+ANSI_RESET+" Non Declare ligne:  "+ANSI_GREEN+ctx.start.getLine()+ANSI_RESET;
-             this.tabErrors.add(errorMessage);
-             ctx.start.getLine();
-        }else{
-            //TODO: affecter la valeur de l'expression et la mettre dans la TS
-        }
+        if (idfctx != null) {
 
-        LinkedList<String> liste_op = new LinkedList<String>();
+            String idf = ctx.IDENTIFIER().getText();
+            System.out.println("idf dans exitAff: " + idf);
+            if (ts.lookup(idf) == null) {
+                String errorMessage = "Variable " + ANSI_CYAN + " " + idf + "" + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
 
+            } else {
+                if (ctx.IDENTIFIER() != null) {
+                    String exp = ctx.IDENTIFIER().getText();
 
-        //TODO: il faut comparer l'identifier avec le type de l'expression
-        //Le type de l'expression est entier si tous ses opérandes sont entiers, réel sinon
-
-        String a = ctx.getText();//la c'est toute l'expression
-        TinyParser.ArithOperationContext operandes = ctx.arithOperation();
-
-        //TODO: check si operandes est non nulle
-        if (operandes != null) {
-                System.out.println("operandes\n-----------------");
-                String op = operandes.operande().getText();
-                System.out.println("op = "+op);
-                String tmp = operandes.getText();
-                String liste_operateur[] = tmp.split("\\+|\\-|\\*|\\/|\\*\\(|\\)");
-                /*Types type;
-                for (String oper :
-                        liste_operateur) {
-                    TsElement dansTS = ts.lookup(oper);
-                    if (dansTS != null) {
-                        type = dansTS.getType();
+                    if (ts.lookup(exp) == null) {
+                        String errorMessage = "Variable " + ANSI_CYAN + " " + idf + "" + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                        this.tabErrors.add(errorMessage);
+                    } else {
+                        if (opIsCorrect) {
+                            if ((ts.lookup(idf).getType() == Types_Tiny.INTEGER) && (!this.pileExpression.empty()) && (this.pileExpression.peek() == Types_Tiny.FLOAT)) {
+                                String errorMessage = "Incompatibilité des types: idf " + ANSI_CYAN + idf + ANSI_RESET + " de type " + ts.lookup(idf).getType() +
+                                        " recoit une expression de type " + this.pileExpression.peek() + " ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                                this.tabErrors.add(errorMessage);
+                            }
+                        }
                     }
-                    System.out.println("oper = " + oper);
-                }*/
+                }
+            }
         }
-        /* System.out.println("Fin operandes\n--------------------");
-        String [] expression = a.split("=");
+    }
+
+
+
+
+    @Override public void exitArith_mult(TinyParser.Arith_multContext ctx) {
         TinyParser.OperandeContext oper = ctx.operande();
 
-
-
-        for (int i = 0; i < expression.length; i++) {
-            System.out.println("i = "+i+"\n"+expression[i]);
-        }
-        System.out.println("le getText: "+a);*/
-
-    }
-
-
-    @Override public void enterArithOperation(TinyParser.ArithOperationContext ctx) {
-
-    }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitArithOperation(TinyParser.ArithOperationContext ctx) {
-        String oper = ctx.operande().getText();
         if (oper != null) {
-            TsElement elem = ts.lookup(oper);
+            TsElement elem = ts.lookup(oper.getText());
+            System.out.println("enterArith_mult: "+oper.getText());
             if (elem == null) {
-                String errorMessage = "Variable " + ANSI_CYAN + oper + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+
+                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
+                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
                 this.tabErrors.add(errorMessage);
+                this.opIsCorrect=false;
+                }
             } else {
                 //ajouter a la pile pour connaitre le type
-                Types type, exType;
+                Types_Tiny type, exType;
                 type = elem.getType();
                 if (pileExpression.isEmpty()) {
                     pileExpression.push(type);
                 } else {
-                    exType = (Types) pileExpression.pop();
+                    exType = (Types_Tiny) pileExpression.pop();
                     if (exType == type) {
                         pileExpression.push(type);
+                    }else if(exType == Types_Tiny.FLOAT){
+                        //l'actuelle peut etre un int on s'en fou
+                        pileExpression.push(exType) ;
+                        }else
+                            {
+                                pileExpression.push(type);
+                            }
                     }
-                    //si le type actuel est entier et l'autre float
-
-
                 }
             }
 
+    }
+
+    @Override public void enterArith_div(TinyParser.Arith_divContext ctx) { }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override public void exitArith_div(TinyParser.Arith_divContext ctx) {
+        TinyParser.OperandeContext oper = ctx.operande();
+
+        if (oper != null) {
+            TsElement elem = ts.lookup(oper.getText());
+            System.out.println("enterArith_mult: "+oper.getText());
+            if (elem == null) {
+
+                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
+                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
+                this.opIsCorrect=false;
+                 }
+            } else {
+                //ajouter a la pile pour connaitre le type
+                Types_Tiny type, exType;
+                type = elem.getType();
+                if (pileExpression.isEmpty()) {
+                    pileExpression.push(type);
+                } else {
+                    exType = (Types_Tiny) pileExpression.pop();
+                    if (exType == type) {
+                        pileExpression.push(type);
+                    }else if(exType == Types_Tiny.FLOAT){
+                        //l'actuelle peut etre un int on s'en fou
+                        pileExpression.push(exType) ;
+                    }else
+                    {
+                        pileExpression.push(type);
+                    }
+                }
+            }
         }
     }
-    @Override public void enterOpComparison(TinyParser.OpComparisonContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitOpComparison(TinyParser.OpComparisonContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterComparison(TinyParser.ComparisonContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitComparison(TinyParser.ComparisonContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterConditions(TinyParser.ConditionsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitConditions(TinyParser.ConditionsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterEls(TinyParser.ElsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitEls(TinyParser.ElsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterLoop(TinyParser.LoopContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitLoop(TinyParser.LoopContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterScanInputs(TinyParser.ScanInputsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitScanInputs(TinyParser.ScanInputsContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterScan(TinyParser.ScanContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitScan(TinyParser.ScanContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterText(TinyParser.TextContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitText(TinyParser.TextContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void enterPrint(TinyParser.PrintContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void exitPrint(TinyParser.PrintContext ctx) { }
 
     /**
      * {@inheritDoc}
      *
      * <p>The default implementation does nothing.</p>
      */
-    @Override public void enterEveryRule(ParserRuleContext ctx) { }
+    @Override public void enterArith_add(TinyParser.Arith_addContext ctx) { }
     /**
      * {@inheritDoc}
      *
      * <p>The default implementation does nothing.</p>
      */
-    @Override public void exitEveryRule(ParserRuleContext ctx) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void visitTerminal(TerminalNode node) { }
-    /**
-     * {@inheritDoc}
-     *
-     * <p>The default implementation does nothing.</p>
-     */
-    @Override public void visitErrorNode(ErrorNode node) { }
+    @Override public void exitArith_add(TinyParser.Arith_addContext ctx) {
+        TinyParser.OperandeContext oper = ctx.operande();
 
-}
+        if (oper != null) {
+            TsElement elem = ts.lookup(oper.getText());
+            System.out.println("enterArith_mult: "+oper.getText());
+            if (elem == null) {
+                if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null))
+                {
+                String errorMessage = "Variable " + ANSI_CYAN +oper.getText()+ ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
+                this.opIsCorrect=false;
+                }
+            } else {
+                //ajouter a la pile pour connaitre le type
+                Types_Tiny type, exType;
+                type = elem.getType();
+                if (pileExpression.isEmpty()) {
+                    pileExpression.push(type);
+                } else {
+                    exType = (Types_Tiny) pileExpression.pop();
+                    if (exType == type) {
+                        pileExpression.push(type);
+                    }else if(exType == Types_Tiny.FLOAT){
+                        //l'actuelle peut etre un int on s'en fou
+                        pileExpression.push(exType) ;
+                    }else
+                    {
+                        pileExpression.push(type);
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    @Override public void exitArith_sub(TinyParser.Arith_subContext ctx) {
+        TinyParser.OperandeContext oper = ctx.operande();
+
+        if (oper != null) {
+            TsElement elem = ts.lookup(oper.getText());
+            System.out.println("enterArith_mult: " + oper.getText());
+            if (elem == null) {
+                if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null))
+                {    
+                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
+                this.opIsCorrect = false;
+                }
+            } else {
+                //ajouter a la pile pour connaitre le type
+                Types_Tiny type, exType;
+                type = elem.getType();
+                if (pileExpression.isEmpty()) {
+                    pileExpression.push(type);
+                } else {
+                    exType = (Types_Tiny) pileExpression.pop();
+                    if (exType == type) {
+                        pileExpression.push(type);
+                    } else if (exType == Types_Tiny.FLOAT) {
+                        //l'actuelle peut etre un int on s'en fou
+                        pileExpression.push(exType);
+                    } else {
+                        pileExpression.push(type);
+                    }
+                }
+            }
+        }
+
+        }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override public void enterOper(TinyParser.OperContext ctx) { }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override public void exitOper(TinyParser.OperContext ctx) {
+        TinyParser.OperandeContext oper = ctx.operande();
+
+        if (oper != null) {
+            TsElement elem = ts.lookup(oper.getText());
+            System.out.println("enterArith_mult: " + oper.getText());
+            if (elem == null) {
+                 if(! ((ctx.operande().INTEGER()!= null )|| (ctx.operande().FLOAT()) != null)){
+                String errorMessage = "Variable " + ANSI_CYAN + oper.getText() + ANSI_RESET + " Non Declare ligne:  " + ANSI_GREEN + ctx.start.getLine() + ANSI_RESET;
+                this.tabErrors.add(errorMessage);
+                this.opIsCorrect = false;
+                 }
+            } else {
+                //ajouter a la pile pour connaitre le type
+                Types_Tiny type, exType;
+                type = elem.getType();
+                if (pileExpression.isEmpty()) {
+                    pileExpression.push(type);
+                } else {
+                    exType = (Types_Tiny) pileExpression.pop();
+                    if (exType == type) {
+                        pileExpression.push(type);
+                    } else if (exType == Types_Tiny.FLOAT) {
+                        //l'actuelle peut etre un int on s'en fou
+                        pileExpression.push(exType);
+                    } else {
+                        pileExpression.push(type);
+                    }
+                }
+            }
+        }
+
+
+    }
+    @Override public void enterArithParent(TinyParser.ArithParentContext ctx) { }
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override public void exitArithParent(TinyParser.ArithParentContext ctx) {   }
+
+
+
+
+
+    }
+
 
