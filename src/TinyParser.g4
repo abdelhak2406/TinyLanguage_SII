@@ -13,7 +13,7 @@ listeDec:   IDENTIFIER | IDENTIFIER COMMA listeDec ;
 typeDec:   (INTCOMPIL | FLOATCOMPIL | STRINGCOMPIL) ;
 
 
-descPgm: (aff | comparison| conditions | loop | scan | print)*; //arithoperation enlevé
+descPgm: (aff | conditions | loop | scan | print)*; //arithoperation enlevé
 
 operande : IDENTIFIER #id
          | INTEGER #integer
@@ -39,12 +39,12 @@ opComparison    : RANGLE
                 ;
 comparison : LPAREN (operande opComparison operande) RPAREN ; // try : LPAREN (arithOperation  opComparison arithOperation) RPAREN
 
-conditions: IF comparison THEN LCURL descPgm RCURL els #if_aff   ;//les if imbrique n'existe pas
+conditions: IF comparison THEN LCURL descPgm2 RCURL  #if_aff   //les if imbrique n'existe pas
+           |IF comparison THEN LCURL descPgm2 RCURL ELSE LCURL descPgm3 RCURL #ifelse_aff
+           ;
 
-els : ELSE LCURL descPgm RCURL #ifelse_aff
-    |   #elseNothing
-    ;
-
+descPgm2 : (aff | conditions | loop | scan | print)*;
+descPgm3 : (aff | conditions | loop | scan | print)*;
 //----------------------------------------------------------
 
 loop: DO LCURL descPgm RCURL WHILE comparison  ;
